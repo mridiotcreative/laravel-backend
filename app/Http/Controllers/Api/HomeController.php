@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Users_story;
 use App\Models\Banner;
-use App\Models\Category;
+use App\Models\UsersVideoPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use App\Traits\HttpResponseTraits;
@@ -16,18 +16,29 @@ class HomeController extends ApiController
 
     public function index()
     {
-       $data = array();
-
-       $data['Users_story'] = Users_story::with('users')->inRandomOrder()->limit(10)->get();
-
        $banner = Banner::inRandomOrder()->limit(10)->get(['id','title','photo','description']);
 
-       $data['Banner'] = $banner;
+       return $this->success(Lang::get('messages.home_page_data'), $banner);
+    }
 
-       $data['AllData'] = [];
+    public function userStory()
+    {
+       $userStory = Users_story::with('user')->inRandomOrder()->limit(10)->get();
 
-       $object['home_data'] = $data;
+       return $this->success(Lang::get('messages.home_page_data'), $userStory);
+    }
 
-       return $this->success(Lang::get('messages.home_page_data'), $object);
+    public function allVideoPhotoShorts()
+    {
+       $userStory = UsersVideoPhoto::with('user')->inRandomOrder()->limit(10)->get();
+        if ($userStory) {
+            foreach ($userStory as $result) {
+                $result->likes = [];
+                $result->dislikes = [];
+                $result->shares = [];
+                $result->comments = [];
+            }
+        }
+       return $this->success(Lang::get('messages.home_page_data'), $userStory);
     }
 }

@@ -45,7 +45,9 @@ Route::namespace('Api')->group(
         //  });
 
          // home api routes
-         Route::get('/home', 'HomeController@index');
+         Route::get('/home-banner', 'HomeController@index');
+         Route::get('/users-story', 'HomeController@userStory');
+         Route::get('/all-video-shorts', 'HomeController@allVideoPhotoShorts');
 
         //  Route::prefix('category')->group(function(){
         //     Route::get('/get-category', 'HomeController@getCategory');
@@ -63,8 +65,11 @@ Route::namespace('Api')->group(
             // Change Password
             Route::post('change-password', 'MyAccountController@changePassword');
 
-            // Upload Story
+            // Story
             Route::post('create-story', 'UserController@createStory');
+
+            // Upload Video Photo
+            Route::post('upload-video-photo', 'UserController@uploadVideoPhoto');
 
             // Manage Address
             Route::post('add-address', 'CustomerAddressController@addAddress');

@@ -88,4 +88,8 @@ return [
     // user story
     'user_story_add' => 'story added successfully',
     'user_story_add_failed' => 'story not added',
+
+    // User Data
+    'user_add' => 'data added successfully',
+    'user_add_failed' => 'data not added',
 ];

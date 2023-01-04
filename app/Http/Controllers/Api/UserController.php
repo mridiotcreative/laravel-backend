@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Users_story;
+use App\Models\UsersVideoPhoto;
 use App\Models\Banner;
-use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use App\Traits\HttpResponseTraits;
@@ -42,5 +42,37 @@ class UserController extends ApiController
             return $this->success(Lang::get('messages.user_story_add'));
         }
         return $this->failure(Lang::get('messages.user_story_add_failed'), Response::HTTP_CONFLICT);
+    }
+
+    public function uploadVideoPhoto(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'upload_type' => 'required|in:1,2,3',
+                'upload_url' => 'required|file|mimes:mp4,jpg,jpeg,png|max:20000',
+            ]
+        );
+
+        $user = new UsersVideoPhoto();
+        $data = $request->all();
+
+        $data['upload_type'] = $request->upload_type;
+
+        if ($request->hasFile('upload_url')) {
+            $now = date('ymds') . '-';
+            $upload_url = $request->file('upload_url');
+            $upload_urlName = $now . AppHelper::replaceSpaceIntoDash($upload_url->getClientOriginalName());
+            $request->upload_url->storeAs(config('path.user'), $upload_urlName);
+            $data['upload_url'] = $upload_urlName;
+        }
+
+        $data['user_id'] = $request->user()->id;
+        $status = $user->fill($data)->save();
+
+        if($status){
+            return $this->success(Lang::get('messages.user_add'));
+        }
+        return $this->failure(Lang::get('messages.user_add_failed'), Response::HTTP_CONFLICT);
     }
 }

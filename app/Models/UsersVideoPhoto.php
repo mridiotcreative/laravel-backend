@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Users_story extends Model
+class UsersVideoPhoto extends Model
 {
-    protected $table = 'users_stories';
+    protected $table = 'users_video_photos';
 
-    protected $fillable = ['user_id','video_url'];
+    protected $fillable = ['user_id','upload_type','upload_url'];
 
     protected $hidden = [
         'created_at', 'updated_at'
@@ -19,7 +19,7 @@ class Users_story extends Model
         return $this->hasOne('App\User', 'id', 'user_id')->select('id','name','email');
     }
 
-    public function getVideoUrlAttribute($value)
+    public function getUploadUrlAttribute($value)
     {
         if ($value) {
             return asset('storage/uploads/user/' . $value);
