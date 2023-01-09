@@ -71,6 +71,11 @@ Route::namespace('Api')->group(
             // Upload Video Photo
             Route::post('upload-video-photo', 'UserController@uploadVideoPhoto');
 
+            // Video Like and comment and share
+            Route::post('add-like-comment-share', 'UserController@addLikeAndComment');
+            Route::post('remove-like', 'UserController@removeLike');
+            Route::post('remove-comment', 'UserController@removeComment');
+
             // Manage Address
             Route::post('add-address', 'CustomerAddressController@addAddress');
             Route::post('update-address', 'CustomerAddressController@updateAddress');

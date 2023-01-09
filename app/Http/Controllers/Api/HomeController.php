@@ -30,13 +30,10 @@ class HomeController extends ApiController
 
     public function allVideoPhotoShorts()
     {
-       $userStory = UsersVideoPhoto::with('user')->inRandomOrder()->limit(10)->get();
+       $userStory = UsersVideoPhoto::with(['user','likes','comments'])->inRandomOrder()->limit(10)->get();
         if ($userStory) {
             foreach ($userStory as $result) {
-                $result->likes = [];
                 $result->dislikes = [];
-                $result->shares = [];
-                $result->comments = [];
             }
         }
        return $this->success(Lang::get('messages.home_page_data'), $userStory);

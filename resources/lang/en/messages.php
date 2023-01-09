@@ -92,4 +92,5 @@ return [
     // User Data
     'user_add' => 'data added successfully',
     'user_add_failed' => 'data not added',
+    'data_deleted' => 'Data deleted successfully'
 ];

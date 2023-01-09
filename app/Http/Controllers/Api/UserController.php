@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Users_story;
 use App\Models\UsersVideoPhoto;
+use App\Models\videoComments;
+use App\Models\videoLikes;
 use App\Models\Banner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -72,6 +74,81 @@ class UserController extends ApiController
 
         if($status){
             return $this->success(Lang::get('messages.user_add'));
+        }
+        return $this->failure(Lang::get('messages.user_add_failed'), Response::HTTP_CONFLICT);
+    }
+
+    public function addLikeAndComment(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'type' => 'required|in:1,2,3',
+                'video_id' => 'required|exists:App\Models\UsersVideoPhoto,id',
+                'user_comment' => 'required_if:type,2',
+            ]
+        );
+
+        $data = $request->all();
+
+        if ($request->type == 1) {
+            $modelObj = new videoLikes();
+            $modelObj->video_id = $request->video_id;
+            $modelObj->user_id = $request->user()->id;
+        }
+        if ($request->type == 2) {
+            $modelObj = new videoComments();
+            $modelObj->user_comment = $request->user_comment;
+            $modelObj->video_id = $request->video_id;
+            $modelObj->user_id = $request->user()->id;
+        }
+        if ($request->type == 3) {
+            $modelObj = UsersVideoPhoto::findOrFail($request->video_id);
+            $modelObj->share_count = $modelObj->share_count + 1;
+        }
+
+        $status = $modelObj->save();
+
+        if($status){
+            return $this->success(Lang::get('messages.user_add'));
+        }
+        return $this->failure(Lang::get('messages.user_add_failed'), Response::HTTP_CONFLICT);
+    }
+
+    public function removeLike(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'like_id' => 'required|exists:App\Models\videoLikes,id',
+                'video_id' => 'required|exists:App\Models\UsersVideoPhoto,id',
+            ]
+        );
+
+        $modelObj = videoLikes::find($request->like_id);
+        $status = $modelObj->delete();
+
+        if($status){
+            return $this->success('Unlike successfully');
+        }
+        return $this->failure(Lang::get('messages.user_add_failed'), Response::HTTP_CONFLICT);
+    }
+
+    public function removeComment(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'comment_id' => 'required|exists:App\Models\videoComments,id',
+                'video_id' => 'required|exists:App\Models\UsersVideoPhoto,id',
+            ]
+        );
+
+        $modelObj = videoComments::find($request->comment_id);
+        $status = $modelObj->delete();
+
+        if($status){
+            return $this->success(Lang::get('messages.data_deleted'));
         }
         return $this->failure(Lang::get('messages.user_add_failed'), Response::HTTP_CONFLICT);
     }

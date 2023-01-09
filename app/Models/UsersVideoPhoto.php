@@ -19,6 +19,16 @@ class UsersVideoPhoto extends Model
         return $this->hasOne('App\User', 'id', 'user_id')->select('id','name','email');
     }
 
+    public function likes()
+    {
+        return $this->hasMany('App\Models\videoLikes', 'video_id', 'id')->with('user')->select('id','user_id','video_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Models\videoComments', 'video_id', 'id')->with('user')->select('id','user_id','video_id','user_comment');
+    }
+
     public function getUploadUrlAttribute($value)
     {
         if ($value) {
