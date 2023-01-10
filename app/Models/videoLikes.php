@@ -12,6 +12,6 @@ class videoLikes extends Model
 
     public function user()
     {
-        return $this->hasOne('App\User', 'id', 'user_id')->select('id','name','email');
+        return $this->hasOne('App\User', 'id', 'user_id')->select('id','name','email','photo');
     }
 }

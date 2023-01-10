@@ -20,10 +20,7 @@ class CreateCustomerAddressesTable extends Migration
             $table->integer('pincode');
             $table->string('city');
             $table->smallInteger('is_primary')->default(0);
-            $table->unsignedBigInteger('customer_id')->nullable();
             $table->timestamps();
-            
-            $table->foreign('customer_id', 'customer_addresses_customer_id_foreign')->references('id')->on('customers')->onDelete('set NULL');
         });
     }
 

@@ -27,12 +27,21 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'photo', 'status',
+        'name', 'email', 'password', 'role', 'photo', 'status', 'dob', 'gender', 'phone'
     ];
 
     public function getImage()
     {
         return url('storage/' . config('path.user') . $this->photo);
+    }
+
+    public function getPhotoAttribute($value)
+    {
+        if ($value) {
+            return url('storage/' . config('path.user') . $value);
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -58,7 +67,7 @@ class User extends Authenticatable
         $password = $id ? 'nullable' : 'required|min:6|max:8';
         return [
             'name' => 'required|max:50|min:3',
-            'email' => "string|required|unique:customers,email,{$id}",
+            'email' => "string|required|unique:users,email,{$id}",
             'password' => $password,
         ];
     }
