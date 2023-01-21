@@ -22,10 +22,10 @@
 
 
     <!-- Divider -->
-    <hr class="sidebar-divider">
+    {{-- <hr class="sidebar-divider"> --}}
 
     <!-- Heading -->
-    <div class="sidebar-heading">
+    {{-- <div class="sidebar-heading">
         Customer
     </div>
 
@@ -33,19 +33,19 @@
         <a class="nav-link" href="{{ route('customer.index') }}">
             <i class="fas fa-users"></i>
             <span>Customers</span></a>
-    </li>
+    </li> --}}
 
     <!-- Divider -->
-    <hr class="sidebar-divider">
+    {{-- <hr class="sidebar-divider"> --}}
 
     <!-- Heading -->
-    <div class="sidebar-heading">
+    {{-- <div class="sidebar-heading">
         Banner
-    </div>
+    </div> --}}
 
     <!-- Nav Item - Pages Collapse Menu -->
     <!-- Nav Item - Charts -->
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
             aria-controls="collapseTwo">
             <i class="fas fa-image"></i>
@@ -58,7 +58,7 @@
                 <a class="collapse-item" href="{{ route('banner.create') }}">Add Banners</a>
             </div>
         </div>
-    </li>
+    </li> --}}
     <!-- Divider -->
     <hr class="sidebar-divider">
     <!-- Heading -->
@@ -130,7 +130,7 @@
     </li>*/ ?>
 
     <!--Orders -->
-    <li class="nav-item">
+    <li class="nav-item d-none">
         <a class="nav-link" href="{{ route('order.index') }}">
             <i class="fas fa-hammer fa-chart-area"></i>
             <span>Orders</span>
@@ -138,23 +138,23 @@
     </li>
 
     <!-- Reviews -->
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link" href="{{ route('review.index') }}">
             <i class="fas fa-comments"></i>
             <span>Reviews</span></a>
-    </li>
+    </li> --}}
 
 
     <!-- Divider -->
-    <hr class="sidebar-divider">
+    <hr class="sidebar-divider  d-none">
 
     <!-- Heading -->
-    <div class="sidebar-heading">
+    <div class="sidebar-heading d-none">
         Posts
     </div>
 
     <!-- Posts -->
-    <li class="nav-item">
+    <li class="nav-item d-none">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#postCollapse" aria-expanded="true"
             aria-controls="postCollapse">
             <i class="fas fa-fw fa-folder"></i>
@@ -170,7 +170,7 @@
     </li>
 
     <!-- Category -->
-    <li class="nav-item">
+    <li class="nav-item d-none">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#postCategoryCollapse"
             aria-expanded="true" aria-controls="postCategoryCollapse">
             <i class="fas fa-sitemap fa-folder"></i>
@@ -187,7 +187,7 @@
     </li>
 
     <!-- Tags -->
-    <li class="nav-item">
+    <li class="nav-item d-none">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#tagCollapse" aria-expanded="true"
             aria-controls="tagCollapse">
             <i class="fas fa-tags fa-folder"></i>
@@ -203,18 +203,18 @@
     </li>
 
     <!-- Comments -->
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link" href="{{ route('comment.index') }}">
             <i class="fas fa-comments fa-chart-area"></i>
             <span>Comments</span>
         </a>
-    </li>
+    </li> --}}
 
 
     <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+    <hr class="sidebar-divider d-none d-md-block d-none">
     <!-- Heading -->
-    <div class="sidebar-heading">
+    <div class="sidebar-heading d-none">
         General Settings
     </div>
     {{-- <li class="nav-item">
@@ -223,26 +223,26 @@
             <span>Coupon</span></a>
     </li> --}}
     <!-- Contact Us -->
-    <li class="nav-item">
+    <li class="nav-item d-none">
         <a class="nav-link" href="{{ route('contact-us.index') }}">
             <i class="fas fa-cog"></i>
             <span>Contact Us</span></a>
     </li>
     <!-- Users -->
-    <li class="nav-item">
+    <li class="nav-item d-none">
         <a class="nav-link" href="{{ route('users.index') }}">
             <i class="fas fa-users"></i>
             <span>Users</span></a>
     </li>
     <!-- General settings -->
-    <li class="nav-item">
+    <li class="nav-item d-none">
         <a class="nav-link" href="{{ route('settings') }}">
             <i class="fas fa-cog"></i>
             <span>Settings</span></a>
     </li>
 
 
-    <li class="nav-item">
+    <li class="nav-item d-none">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#cmsCollapse" aria-expanded="true"
             aria-controls="cmsCollapse">
             <i class="fas fa-table"></i>
@@ -257,7 +257,7 @@
         </div>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item d-none">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pricemasterCollapse" aria-expanded="true"
             aria-controls="pricemasterCollapse">
             <i class="fas fa-coins"></i>
@@ -272,7 +272,7 @@
         </div>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item d-none">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#OffermasterCollapse" aria-expanded="true"
             aria-controls="OffermasterCollapse">
             <i class="fas fa-gift"></i>

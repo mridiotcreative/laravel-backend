@@ -116,6 +116,11 @@ class AuthenticationController extends ApiController
         // } elseif ($user->getRawOriginal('status') != AppHelper::ACTIVE['status_code']) {
         //     return $this->failure(Lang::get('messages.account_inactive'), Response::HTTP_UNAUTHORIZED);
         // }
+
+        // if (strtoupper($user->getRawOriginal('status')) != strtoupper(AppHelper::ACTIVE['status'])) {
+        //     return $this->failure(Lang::get('messages.account_inactive'), Response::HTTP_UNAUTHORIZED);
+        // }
+
         $token = $user->createToken('API_TOKEN')->accessToken;
         if (!empty($token)) {
             return $this->success(Lang::get('messages.login_success'), ['accessToken' => $token]);

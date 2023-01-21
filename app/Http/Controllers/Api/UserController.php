@@ -7,12 +7,16 @@ use App\Models\UsersVideoPhoto;
 use App\Models\videoComments;
 use App\Models\videoLikes;
 use App\Models\VideoDislikes;
+use App\Models\FollowUsers;
 use App\Models\Banner;
+use App\User;
+use App\Models\CustomerAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use App\Traits\HttpResponseTraits;
 use App\Helpers\AppHelper;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 
 class UserController extends ApiController
 {
@@ -159,12 +163,14 @@ class UserController extends ApiController
         );
 
         $modelObj = videoLikes::find($request->id);
-        $status = $modelObj->delete();
+        if ($modelObj) {
+            $status = $modelObj->delete();
 
-        if($status){
-            return $this->success('Unlike successfully');
+            if($status){
+                return $this->success('Unlike successfully');
+            }
         }
-        return $this->failure(Lang::get('messages.user_add_failed'), Response::HTTP_CONFLICT);
+        return $this->failure(Lang::get('messages.not_found'), Response::HTTP_CONFLICT);
     }
 
     public function removeComment(Request $request)
@@ -178,12 +184,14 @@ class UserController extends ApiController
         );
 
         $modelObj = videoComments::find($request->id);
-        $status = $modelObj->delete();
+        if ($modelObj) {
+            $status = $modelObj->delete();
 
-        if($status){
-            return $this->success(Lang::get('messages.data_deleted'));
+            if($status){
+                return $this->success(Lang::get('messages.data_deleted'));
+            }
         }
-        return $this->failure(Lang::get('messages.user_add_failed'), Response::HTTP_CONFLICT);
+        return $this->failure(Lang::get('messages.not_found'), Response::HTTP_CONFLICT);
     }
 
     public function removeDislike(Request $request)
@@ -197,11 +205,112 @@ class UserController extends ApiController
         );
 
         $modelObj = VideoDislikes::find($request->id);
-        $status = $modelObj->delete();
+        if ($modelObj) {
+            $status = $modelObj->delete();
+
+            if($status){
+                return $this->success('Unlike successfully');
+            }
+        }
+        return $this->failure(Lang::get('messages.not_found'), Response::HTTP_CONFLICT);
+    }
+
+    public function followUser(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'follow_user_id' => 'required|exists:App\User,id',
+            ]
+        );
+
+        if ($request->follow_user_id == $request->user()->id) {
+            return $this->success("You can't follow your self");
+        }
+
+        $data = $request->all();
+
+        $modelObj = FollowUsers::where(['follow_user_id'=>$request->follow_user_id,'user_id'=>$request->user()->id])->first();
+        if (!$modelObj) {
+            $modelObj = new FollowUsers();
+        }
+        $modelObj->follow_user_id = $request->follow_user_id;
+        $modelObj->user_id = $request->user()->id;
+
+        $status = $modelObj->save();
 
         if($status){
-            return $this->success('Unlike successfully');
+            return $this->success(Lang::get('messages.user_add'));
         }
         return $this->failure(Lang::get('messages.user_add_failed'), Response::HTTP_CONFLICT);
+    }
+
+    public function unFollowUser(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'follow_user_id' => 'required|exists:App\User,id',
+            ]
+        );
+
+        $modelObj = FollowUsers::where(['follow_user_id'=>$request->follow_user_id,'user_id'=>$request->user()->id])->first();
+        if ($modelObj) {
+            $status = $modelObj->delete();
+
+            if($status){
+                return $this->success('Un Follow Successfully');
+            }
+        }
+        return $this->failure(Lang::get('messages.not_found'), Response::HTTP_CONFLICT);
+    }
+
+    public function getUserProfile(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'user_id' => 'required|exists:App\User,id',
+            ]
+        );
+        $user = User::findOrFail($request->user_id);
+        $user = Arr::except($user,['created_at','updated_at']);
+        $user->photo = ($user->photo != "") ? $user->getImage() : "";
+        $user->dob = ($user->dob != "") ? \Carbon\Carbon::parse($user->dob)->format('d-m-Y') : "";
+        $user->address = CustomerAddress::where('customer_id',$request->user_id)->first();
+
+        return $this->success(Lang::get('messages.success'), $user);
+
+        return $this->failure(Lang::get('messages.something_went_wrong'));
+    }
+
+    public function getFollower(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'follow_user_id' => 'required|exists:App\Models\FollowUsers,follow_user_id',
+            ]
+        );
+       $result = FollowUsers::where('follow_user_id',$request->follow_user_id)->with('user')->inRandomOrder()->limit(10)->get()->pluck('user');
+       if (count($result) > 0) {
+            return $this->success(Lang::get('messages.success'), $result);
+       }
+       return $this->failure(Lang::get('messages.not_found'), Response::HTTP_CONFLICT);
+    }
+
+    public function getFollowing(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'following_user_id' => 'required|exists:App\Models\FollowUsers,user_id',
+            ]
+        );
+        $result = FollowUsers::where('user_id',$request->following_user_id)->with('followingUserData')->inRandomOrder()->limit(10)->get()->pluck('followingUserData');
+        if (count($result) > 0) {
+             return $this->success(Lang::get('messages.success'), $result);
+        }
+        return $this->failure(Lang::get('messages.not_found'), Response::HTTP_CONFLICT);
     }
 }

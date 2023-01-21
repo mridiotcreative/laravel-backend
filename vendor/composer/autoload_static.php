@@ -826,6 +826,7 @@ class ComposerStaticInit7c0b8975e03bdb896eaffe6f9f615135
         'App\\Models\\Coupon' => __DIR__ . '/../..' . '/app/Models/Coupon.php',
         'App\\Models\\Customer' => __DIR__ . '/../..' . '/app/Models/Customer.php',
         'App\\Models\\CustomerAddress' => __DIR__ . '/../..' . '/app/Models/CustomerAddress.php',
+        'App\\Models\\FollowUsers' => __DIR__ . '/../..' . '/app/Models/FollowUsers.php',
         'App\\Models\\IncentiveBarcode' => __DIR__ . '/../..' . '/app/Models/IncentiveBarcode.php',
         'App\\Models\\Message' => __DIR__ . '/../..' . '/app/Models/Message.php',
         'App\\Models\\Notification' => __DIR__ . '/../..' . '/app/Models/Notification.php',

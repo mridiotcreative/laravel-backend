@@ -87,6 +87,7 @@ return array(
     'App\\Models\\Coupon' => $baseDir . '/app/Models/Coupon.php',
     'App\\Models\\Customer' => $baseDir . '/app/Models/Customer.php',
     'App\\Models\\CustomerAddress' => $baseDir . '/app/Models/CustomerAddress.php',
+    'App\\Models\\FollowUsers' => $baseDir . '/app/Models/FollowUsers.php',
     'App\\Models\\IncentiveBarcode' => $baseDir . '/app/Models/IncentiveBarcode.php',
     'App\\Models\\Message' => $baseDir . '/app/Models/Message.php',
     'App\\Models\\Notification' => $baseDir . '/app/Models/Notification.php',

@@ -37,21 +37,21 @@ Route::namespace('Api')->group(
         //  // Get Notification List
         //  Route::get('/cms-page', 'CmsController@index');
 
-        //  // product api routes
-        //  Route::prefix('product')->group(function(){
-        //      Route::post('/categories-wise', 'ProductController@getCategoryWise');
-        //      Route::post('/getallproducts', 'ProductController@index');
-        //      Route::get('/details/{slug}', 'ProductController@details');
-        //  });
+         // product api routes
+         Route::prefix('product')->group(function(){
+             Route::post('/categories-wise', 'ProductController@getCategoryWise');
+             Route::post('/getallproducts', 'ProductController@index');
+             Route::get('/details/{slug}', 'ProductController@details');
+         });
 
          // home api routes
          Route::get('/home-banner', 'HomeController@index');
          Route::get('/users-story', 'HomeController@userStory');
          Route::get('/all-video-shorts', 'HomeController@allVideoPhotoShorts');
 
-        //  Route::prefix('category')->group(function(){
-        //     Route::get('/get-category', 'HomeController@getCategory');
-        //  });
+         Route::prefix('category')->group(function(){
+            Route::get('/get-category', 'HomeController@getCategory');
+         });
 
         // Authorize Access Route
         Route::middleware(['auth:api'])->group(function () {
@@ -78,6 +78,13 @@ Route::namespace('Api')->group(
             Route::post('remove-like', 'UserController@removeLike');
             Route::post('remove-comment', 'UserController@removeComment');
             Route::post('remove-dislike', 'UserController@removeDislike');
+
+            //follower Info
+            Route::post('get-user-profile', 'UserController@getUserProfile');
+            Route::post('follow-user', 'UserController@followUser');
+            Route::post('un-follow-user', 'UserController@unFollowUser');
+            Route::post('get-follower', 'UserController@getFollower');
+            Route::post('get-following', 'UserController@getFollowing');
 
             // Manage Address
             Route::post('add-address', 'CustomerAddressController@addAddress');
@@ -114,10 +121,5 @@ Route::namespace('Api')->group(
 
         // Send Test Push
         Route::post('/send-test-push', 'PushNotificationController@sendTestPush');
-
-        // Soham ERP
-        Route::post('getallcategories', 'SohamErpController@categoryList');
-        Route::post('getallproducts', 'SohamErpController@getProducts');
-        Route::post('getproductdetail', 'SohamErpController@getProductDetails');
     }
 );

@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
-    
+
     protected $fillable = ['title', 'slug', 'summary', 'description', 'cat_id', 'child_cat_id', 'price', 'discount', 'status', 'photo', 'size', 'stock', 'is_featured', 'condition'];
 
     protected $hidden = [
         'condition','size','stock','discount','child_cat_id','is_featured'
     ];
 
-    protected $appends = ['category_name','offer_price','offer_discount'];
-
+    //protected $appends = ['category_name','offer_price','offer_discount'];
+    protected $appends = ['offer_discount'];
     // public function getPriceAttribute(){
     //     return number_format($this->price,2);
     // }
@@ -83,7 +83,7 @@ class Product extends Model
 
     public function getPhotoAttribute($value)
     {
-       
+
         $image_path = [];
         if ($value) {
             $images = explode(",",$value);
@@ -98,19 +98,19 @@ class Product extends Model
     }
 
     // product search scope
-    public function scopeWHereLike($query, $column, $value) 
+    public function scopeWHereLike($query, $column, $value)
     {
         return $query->where($column, 'like', '%'.$value.'%');
     }
 
     // product search scope
-    public function scopeOrWHereLike($query, $column, $value) 
+    public function scopeOrWHereLike($query, $column, $value)
     {
         return $query->orWhere($column, 'like', '%'.$value.'%');
     }
 
     public function getPriceAttribute()
-    {   
+    {
         $price = $this->attributes['price'];
         return number_format($price,2);
     }
@@ -123,8 +123,8 @@ class Product extends Model
     }
 
     public function getOfferPriceAttribute()
-    {   
-       $new_price = ($this->price_master_info != null) ? $this->price_master_info->special_price : (($this->offer_master_info != null)  ? $this->offer_master_info->special_price : $this->price);  
+    {
+       $new_price = ($this->price_master_info != null) ? $this->price_master_info->special_price : (($this->offer_master_info != null)  ? $this->offer_master_info->special_price : $this->price);
        unset($this->price_master_info,$this->offer_master_info);
        if(is_double($new_price)){
         $new_price = number_format($new_price,2);
@@ -133,15 +133,15 @@ class Product extends Model
     }
 
     public function getOfferDiscountAttribute()
-    {   
-       $new_price = ($this->price_master_info != null) ? $this->price_master_info->special_price : (($this->offer_master_info != null)  ? $this->offer_master_info->special_price : $this->price);  
+    {
+       $new_price = ($this->price_master_info != null) ? $this->price_master_info->special_price : (($this->offer_master_info != null)  ? $this->offer_master_info->special_price : $this->price);
        $old_price = $this->price;
-       
+
        $discount = '0%';
        if($old_price !== $new_price){
         $discount = ($new_price * 100 )/ $old_price;
        }
-       
+
        unset($this->price_master_info,$this->offer_master_info);
        return round($discount,0).'%';
     }

@@ -10,6 +10,9 @@ use App\Rules\MatchOldPassword;
 use Hash;
 use Carbon\Carbon;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Lang;
 
 class AdminController extends Controller
 {
@@ -170,5 +173,13 @@ class AdminController extends Controller
             $array[++$key] = [$value->day_name, $value->count];
         }
         return view('backend.index')->with('course', json_encode($array));
+    }
+
+    public function logout()
+    {
+        Session::flush();
+        Auth::logout();
+        request()->session()->flash('success', Lang::get('messages.logout_success'));
+        return back();
     }
 }

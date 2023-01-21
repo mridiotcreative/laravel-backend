@@ -30,7 +30,7 @@
                             <th>Condition</th>
                             <th>Stock</th> -->
                             <th>Photo</th>
-                            <th>Barcode</th>
+                            {{-- <th>Barcode</th> --}}
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -47,7 +47,7 @@
                             <th>Condition</th>
                             <th>Stock</th> -->
                             <th>Photo</th>
-                            <th>Barcode</th>
+                            {{-- <th>Barcode</th> --}}
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -115,7 +115,7 @@
                 //{data: 'condition', name:'condition', orderable: false, searchable: false},
                 //{data: 'product_stock', name:'product_stock', orderable: false, searchable: false},
                 {data: 'product_photo', name:'product_photo', orderable: false, searchable: false},
-                {data: 'barcode_image', name:'barcode_image', orderable: false, searchable: false},
+                // {data: 'barcode_image', name:'barcode_image', orderable: false, searchable: false},
                 {data: 'info_status', name:'info_status', orderable: false, searchable: false},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ],
