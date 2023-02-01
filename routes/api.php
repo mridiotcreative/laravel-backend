@@ -109,14 +109,14 @@ Route::namespace('Api')->group(
              Route::prefix('order')->group(function(){
                 Route::post('/place', 'OrderController@place');
                 Route::post('/', 'OrderController@index');
-                Route::post('/detail/{id}', 'OrderController@detail');
+                Route::post('/details', 'OrderController@detail');
             });
 
             // product review routes
-            Route::prefix('review')->group(function(){
-                Route::post('/', 'ReviewController@store');
-                Route::post('/delete', 'ReviewController@destroy');
-            });
+            // Route::prefix('review')->group(function(){
+            //     Route::post('/', 'ReviewController@store');
+            //     Route::post('/delete', 'ReviewController@destroy');
+            // });
         });
 
         // Send Test Push

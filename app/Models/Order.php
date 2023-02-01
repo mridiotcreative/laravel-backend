@@ -11,8 +11,8 @@ class Order extends Model
     const RULES = [
        'address_id' => 'required|exists:customer_addresses,id',
        'payment_method' => 'required|alpha',
-       'payment_id' => 'required_if:payment_method,==,paypal',
-       'payment_response_log' => 'required_if:payment_method,==,paypal',
+       'payment_id' => 'required_if:payment_method,==,Razorpay',
+       'payment_response_log' => 'required_if:payment_method,==,Razorpay',
        'sub_total_amount' => 'required',
        'total_amount' => 'required'
     ];
@@ -44,7 +44,7 @@ class Order extends Model
     }
     public function customer()
     {
-        return $this->belongsTo('App\Models\Customer', 'customer_id');
+        return $this->belongsTo('App\User', 'id');
     }
     public function product()
     {

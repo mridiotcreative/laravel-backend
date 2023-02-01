@@ -8,6 +8,7 @@ use App\Helpers\AppHelper;
 use  App\Models\Cart;
 use  App\Models\Order;
 use  App\Models\CustomerAddress;
+use App\User;
 use Helper;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
@@ -23,7 +24,7 @@ class OrderController extends ApiController
     public function index(){
 
         $orders = Order::select('id','order_number','status','created_at','delivered')->where('customer_id',request()->user()->id)->with('cart_info:product_id,order_id')->get();
-       
+
         foreach($orders as $order){
             $order->date = $order->created_at->format('M d, Y');
             $order->delivered = $order->delivered ? $order->delivered->format('M d, Y') : '';
@@ -43,26 +44,25 @@ class OrderController extends ApiController
             $data['orders_data'] = $orders;
             return $this->success(Lang::get('messages.order_listing'), $data);
         }
-        return $this->failure(Lang::get('messages.order_data_not_found'), Response::HTTP_NOT_FOUND); 
+        return $this->failure(Lang::get('messages.order_data_not_found'), Response::HTTP_NOT_FOUND);
     }
 
     // place order api
     public function place(Request $request){
 
         $userId = $request->user()->id;
-        
+
         // validation
         if ($this->apiValidation($request, Order::RULES)) {
             return $this->errors(Lang::get('messages.validation_error'), $this->errorsMessages);
         }
 
         if (empty(Cart::where('customer_id', $userId)->where('order_id', null)->first())) {
-            return $this->failure(Lang::get('messages.cart_empty'), Response::HTTP_NOT_FOUND); 
+            return $this->failure(Lang::get('messages.cart_empty'), Response::HTTP_NOT_FOUND);
         }
 
         // get customer address
-        // $customer_address = CustomerAddress::where('customer_id',$userId)->where('is_primary',1)->first();       
-        $customer_address = CustomerAddress::find($request->address_id);       
+        $customer_address = CustomerAddress::find($request->address_id);
 
         $order = new Order();
         $order_data = $request->all();
@@ -73,12 +73,12 @@ class OrderController extends ApiController
         $order_data['street_name'] = $customer_address->street_name;
         $order_data['pincode'] = $customer_address->pincode;
         $order_data['city'] = $customer_address->city;
-       
+
         // $order_data['sub_total_amount'] = AppHelper::totalCartPrice($userId);
         $order_data['sub_total_amount'] = $request->sub_total_amount;
         // $order_data['total_amount'] = AppHelper::totalCartPrice($userId);
         $order_data['total_amount'] = $request->total_amount;
-        
+
         if (request('payment_method') == 'razorpay') {
             $order_data['payment_method'] = 'razorpay';
             $order_data['payment_status'] = 'paid';
@@ -89,19 +89,26 @@ class OrderController extends ApiController
         }
         $order->fill($order_data);
         $status = $order->save();
-        
+
         if ($status) {
             Cart::where('customer_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
             return $this->success(Lang::get('messages.order_placed'));
         }
-        return $this->failure(Lang::get('messages.order_placed_failed'), Response::HTTP_CONFLICT); 
+        return $this->failure(Lang::get('messages.order_placed_failed'), Response::HTTP_CONFLICT);
     }
 
      // order summary
-     public function detail($id){
+     public function detail(Request $request){
+
+        $this->validate(
+            $request,
+            [
+                'id' => 'required|exists:App\Models\Order,id',
+            ]
+        );
 
         $order = Order::select('id','order_number','status','created_at','delivered','sub_total_amount','total_amount')
-                ->where('id',$id)
+                ->where('id',$request->id)
                 ->where('customer_id',request()->user()->id)
                 ->with('cart_info:product_id,order_id,quantity')
                 ->first();
@@ -109,7 +116,7 @@ class OrderController extends ApiController
         $order->date = $order->created_at->format('M d, Y');
         $order->delivered = $order->delivered ? $order->delivered->format('M d, Y') : '';
         $order->total_item = count($order->cart_info);
-      
+
         $product_info = [];
         foreach($order->cart_info as $info){
             $product_name[] = $info->product->title;
@@ -121,7 +128,7 @@ class OrderController extends ApiController
             $product->photo = $info->product->photo;
             $product->offer_price = $info->product->offer_price;
             $product->offer_discount = $info->product->offer_discount;
-            
+
             $product_info[] = $product;
         }
         $order->product_info = $product_info;
@@ -131,6 +138,6 @@ class OrderController extends ApiController
             $data['orders_data'] = $order;
             return $this->success(Lang::get('messages.order_details'), $data);
         }
-        return $this->failure(Lang::get('messages.order_data_not_found'), Response::HTTP_NOT_FOUND); 
+        return $this->failure(Lang::get('messages.order_data_not_found'), Response::HTTP_NOT_FOUND);
     }
 }

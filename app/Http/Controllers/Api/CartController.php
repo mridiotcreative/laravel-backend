@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use  App\Models\Product;
 use  App\Models\Cart;
 use App\Helpers\AppHelper;
+use Helper;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\HttpResponseTraits;
 use Illuminate\Http\Response;
@@ -18,12 +19,11 @@ class CartController extends ApiController
 
     // cart products listing
     public function index(){
-
-        // $cart = Cart::select('id','product_id','quantity')->where('customer_id', auth()->user()->id)->where('order_id', null)->with('product:id,title,slug,photo as image,price,cat_id')->get();
         $cart = Cart::select('id','product_id','quantity')->where('customer_id', auth()->user()->id)->where('order_id', null)->with('product:id,title,slug,photo,price')->get();
 
         if (count($cart) > 0) {
             $data['cart_data'] = $cart;
+            $data['totalCartPrice'] = Helper::totalCartPrice(auth()->user()->id);
             return $this->success(Lang::get('messages.cart_listing'), $data);
         }
         return $this->failure(Lang::get('messages.cart_empty'), Response::HTTP_NOT_FOUND);
@@ -37,16 +37,7 @@ class CartController extends ApiController
         if ($this->apiValidation($request, Cart::RULES)) {
             return $this->errors(Lang::get('messages.validation_error'), $this->errorsMessages);
         }
-        // $validator = Validator::make($request->all(), [
-        //     'product_id' => 'required|exists:products,id',
-        //     'quantity' => 'required|numeric',
-        //     'price' => 'required|numeric',
-        //     // 'amount' => 'required|numeric',
-        // ]);
 
-        // if ($validator->fails()) {
-        //     return AppHelper::validationMessage(false,'Validation failed',$validator->errors());
-        // }
         if ($request->quantity > 0) {
             $qty = !empty($request->quantity) ? $request->quantity : 1;
             $product = Product::where('id', $request->product_id)->first();

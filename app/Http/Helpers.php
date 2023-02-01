@@ -110,7 +110,7 @@ class Helper
             $CartData = Cart::with(['product','product.offer_master_info','product.price_master_info'])->where('customer_id', $user_id)->where('order_id', null)->get();
 
             foreach ($CartData as $key => $cart){
-                //$cart->price = ($cart->product->offer_master_info != null) ? $cart->product->offer_master_info->special_price : $cart->product->price; 
+                //$cart->price = ($cart->product->offer_master_info != null) ? $cart->product->offer_master_info->special_price : $cart->product->price;
 
                 $cart->price = ($cart->product->price_master_info != null) ? $cart->product->price_master_info->special_price : (($cart->product->offer_master_info != null)  ? $cart->product->offer_master_info->special_price : $cart->product->price);
             }
@@ -123,18 +123,9 @@ class Helper
     // Total amount cart
     public static function totalCartPrice($user_id = '')
     {
-        if (Auth::guard('customer')->check()) {
-            if ($user_id == "") $user_id = auth('customer')->user()->id;
-            //$CartData = Cart::where('customer_id', $user_id)->where('order_id', null)->sum('amount');
-            $CartData = Cart::with(['product','product.offer_master_info','product.price_master_info'])->where('customer_id', $user_id)->where('order_id', null)->get();
-
-            $total_amt = 0;
-            foreach ($CartData as $key => $cart){
-                //$newprice = ($cart->product->offer_master_info != null) ? $cart->product->offer_master_info->special_price : $cart->product->price;
-                $newprice = ($cart->product->price_master_info != null) ? $cart->product->price_master_info->special_price : (($cart->product->offer_master_info != null)  ? $cart->product->offer_master_info->special_price : $cart->product->price);
-                
-                $total_amt += $newprice * $cart->quantity;
-            }
+        if ($user_id) {
+            if ($user_id == "") $user_id = auth('user')->user()->id;
+                $total_amt = Cart::where('customer_id', $user_id)->where('order_id', null)->sum('amount');
             return $total_amt;
         } else {
             return 0;

@@ -20,10 +20,10 @@
                             <th><input type="checkbox" id="selectAll" for='selectAll'/></th>
                             <th>Order No.</th>
                             <th>Name</th>
-                            <th>Firm Name</th>
+                            {{-- <th>Firm Name</th> --}}
                             <th>Email</th>
                             <th>Sub Total Amount</th>
-                            <th>Points</th>
+                            {{-- <th>Points</th> --}}
                             <th>Total Amount</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -34,10 +34,10 @@
                             <th>S.N.</th>
                             <th>Order No.</th>
                             <th>Name</th>
-                            <th>Firm Name</th>
+                            {{-- <th>Firm Name</th> --}}
                             <th>Email</th>
                             <th>Sub Total Amount</th>
-                            <th>Points</th>
+                            {{-- <th>Points</th> --}}
                             <th>Total Amount</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -134,10 +134,10 @@
                     //{data: 'DT_RowIndex', name: 'id', orderable: false, searchable: false},
                     {data: 'order_number', name: 'order_number'},
                     {data: 'full_name', name: 'full_name'},
-                    {data: 'firm_name', name:'firm_name', orderable: false, searchable: false},
+                    // {data: 'firm_name', name:'firm_name', orderable: false, searchable: false},
                     {data: 'email', name:'email', orderable: false, searchable: false},
                     {data: 'sub_total_amount', name:'sub_total_amount', orderable: false, searchable: false},
-                    {data: 'points', name:'points', orderable: false, searchable: false},
+                    // {data: 'points', name:'points', orderable: false, searchable: false},
                     {data: 'total_amount', name:'total_amount', orderable: false, searchable: false},
                     {data: 'info_status', name:'info_status', orderable: false, searchable: false},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
@@ -184,7 +184,7 @@
                     url: "{{ route('order.update-status') }}",
                     method: 'post',
                     data: $('#updateOrderStatus').serialize(),
-                    dataType: 'json', 
+                    dataType: 'json',
                     success: function(response) {
                         $('#exampleModal').modal('hide')
                         table.draw();

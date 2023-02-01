@@ -26,7 +26,8 @@ class AppHelper
     // Get Roles
     public static function getRoles()
     {
-        return Role::all();
+        // return Role::all();
+        return [];
     }
 
     // Get State
@@ -117,7 +118,7 @@ class AppHelper
      {
          return Category::where(['status'=>'active','is_featured'=>1])->orderBy('id', 'DESC')->get();
      }
- 
+
 
     // message format for api
     public static function formatMessage($statusCode, $message,$result=null)

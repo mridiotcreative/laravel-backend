@@ -65,7 +65,7 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="form-group d-none">
                             <label for="role" class="col-form-label">Role</label>
                             <select name="role" class="form-control">
                                 <option value="">-----Select Role-----</option>

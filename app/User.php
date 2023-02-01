@@ -35,14 +35,14 @@ class User extends Authenticatable
         return url('storage/' . config('path.user') . $this->photo);
     }
 
-    public function getPhotoAttribute($value)
-    {
-        if ($value) {
-            return url('storage/' . config('path.user') . $value);
-        } else {
-            return '';
-        }
-    }
+    // public function getPhotoAttribute($value)
+    // {
+    //     if ($value) {
+    //         return url('storage/' . config('path.user') . $value);
+    //     } else {
+    //         return '';
+    //     }
+    // }
 
     /**
      * The attributes that should be hidden for arrays.

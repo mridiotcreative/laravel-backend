@@ -57,6 +57,7 @@ class AdminController extends Controller
             $request->photo->storeAs(config('path.user'), $photoName);
             $data['photo'] = $photoName;
         }
+        // dd($data);
         $status = $user->fill($data)->save();
         if ($status) {
             request()->session()->flash('success', 'Successfully updated your profile');

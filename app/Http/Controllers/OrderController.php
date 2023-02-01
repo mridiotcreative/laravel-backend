@@ -40,8 +40,8 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            
-            
+
+
             $data = Order::with('customer')->orderBy('id', 'DESC');
             return Datatables::of($data)
                 ->addIndexColumn()
@@ -49,7 +49,7 @@ class OrderController extends Controller
                     return '<input type="checkbox" name="rowID[]" class="rowID" value="'.$data->id.'"/>';
                 })
                 ->addColumn('full_name', function($data){
-                    return ($data->customer != null) ? $data->customer->full_name : "";
+                    return ($data->customer != null) ? $data->customer->name : "";
                 })->addColumn('firm_name', function($data){
                     return ($data->customer != null) ? $data->customer->firm_name : "";
                 })->addColumn('email', function($data){
@@ -70,7 +70,7 @@ class OrderController extends Controller
                     }
                 })->addColumn('action', function($data){
 
-                    //<a href="'.route('order.edit', $data->id).'" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a> 
+                    //<a href="'.route('order.edit', $data->id).'" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
                     $actionData = '<a href="'.route('order.show', $data->id).'" class="btn btn-warning btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="fas fa-eye"></i></a>
                     <button data-toggle="modal" data-target="#exampleModal" data-id="'.$data->id.'" data-status="'.$data->status.'" class="change_status btn btn-primary btn-sm float-left mr-1"
                         style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip"

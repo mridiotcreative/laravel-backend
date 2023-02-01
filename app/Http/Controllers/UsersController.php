@@ -25,9 +25,9 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            
-            
-            $data = User::orderBy('id', 'ASC');
+
+
+            $data = User::orderBy('id', 'ASC')->whereNotIn('role', ['admin'])->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('uimage', function($data){
