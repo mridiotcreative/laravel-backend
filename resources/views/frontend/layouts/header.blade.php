@@ -5,9 +5,14 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-12">
                     <!-- Top Left -->
+                    @php
+                        $getSettingData = (new \App\Helpers\AppHelper)->getSettingData();
+                        //dd($getSettingData['email']);
+                    @endphp
                     <div class="top-left">
                         <ul class="list-main">
                             <li><i class="ti-email"></i>
+                                {{ $getSettingData['email'] }}
                             </li>
                         </ul>
                     </div>
@@ -51,7 +56,7 @@
                     <!-- Logo -->
                     <div class="logo">
                         <a href="{{ route('home') }}">
-                            <img src="#" alt="logo">
+                            <img src="{{ $getSettingData['logo'] }}" alt="logo">
                         </a>
                     </div>
                     <!--/ End Logo -->

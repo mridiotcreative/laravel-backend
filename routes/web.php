@@ -18,41 +18,41 @@ Route::get('/', function ()
     dd("Page is under construction");
 })->name('home');
 
-// Route::get('/', 'FrontendController@home')->name('home');
-// Auth::routes(['register' => false]);
-// // Get City By State
-// Route::post('/city-by-state', 'Frontend\LoginController@getCityByState')->name('register.city');
-// // Frontend Section
-// // Guest Middleware Redirect Home If Authenticated
-// Route::group(
-//     ['namespace' => 'Frontend', 'middleware' => ['guest:customer']],
-//     function () {
-//         // User Login
-//         Route::get('/login', 'LoginController@login')->name('login.form');
-//         Route::post('/login', 'LoginController@loginSubmit')->name('login.submit');
-//         // Register
-//         Route::get('/register', 'LoginController@register')->name('register.form');
-//         Route::post('/register', 'LoginController@registerSubmit')->name('register.submit');
-//         // Forgot Password
-//         Route::get('/forgot-password', 'LoginController@resetPasswordForm')->name('password.forgot');
-//         Route::post('/forgot-password', 'LoginController@resetPasswordSubmit')->name('password.forgot.submit');
-//         // Set New Password
-//         Route::get('/set-new-password/{token}', 'LoginController@setNewPasswordForm')->name('password.setNew');
-//         Route::post('/set-new-password/{token}', 'LoginController@setNewPasswordSubmit')->name('password.setNew.submit');
-//     }
-// );
+Route::get('/', 'FrontendController@home')->name('home');
+Auth::routes(['register' => false]);
+// Get City By State
+Route::post('/city-by-state', 'Frontend\LoginController@getCityByState')->name('register.city');
+// Frontend Section
+// Guest Middleware Redirect Home If Authenticated
+Route::group(
+    ['namespace' => 'Frontend', 'middleware' => ['guest:customer']],
+    function () {
+        // User Login
+        Route::get('/login', 'LoginController@login')->name('login.form');
+        Route::post('/login', 'LoginController@loginSubmit')->name('login.submit');
+        // Register
+        Route::get('/register', 'LoginController@register')->name('register.form');
+        Route::post('/register', 'LoginController@registerSubmit')->name('register.submit');
+        // Forgot Password
+        Route::get('/forgot-password', 'LoginController@resetPasswordForm')->name('password.forgot');
+        Route::post('/forgot-password', 'LoginController@resetPasswordSubmit')->name('password.forgot.submit');
+        // Set New Password
+        Route::get('/set-new-password/{token}', 'LoginController@setNewPasswordForm')->name('password.setNew');
+        Route::post('/set-new-password/{token}', 'LoginController@setNewPasswordSubmit')->name('password.setNew.submit');
+    }
+);
 
-// // Frontend Page
-// Route::get('/home', 'FrontendController@home');
-// Route::get('/about-us', 'FrontendController@aboutUs')->name('about-us');
-// // Contact Us
-// Route::post('/contact-us', 'ContactUsController@submitContactUs')->name('contact.store');
-// Route::get('/contact-us', 'ContactUsController@contact')->name('contact');
+// Frontend Page
+Route::get('/home', 'FrontendController@home');
+Route::get('/about-us', 'FrontendController@aboutUs')->name('about-us');
+// Contact Us
+Route::post('/contact-us', 'ContactUsController@submitContactUs')->name('contact.store');
+Route::get('/contact-us', 'ContactUsController@contact')->name('contact');
 
-// // Product
-// Route::get('product-detail/{slug}', 'FrontendController@productDetail')->name('product-detail');
-// Route::match(['get', 'post'], '/product/{search?}', 'FrontendController@productSearch')->name('product.search');
-// Route::match(['get', 'post'], '/product-grids', 'FrontendController@productGrids')->name('product-grids');
+// Product
+Route::get('product-detail/{slug}', 'FrontendController@productDetail')->name('product-detail');
+Route::match(['get', 'post'], '/product/{search?}', 'FrontendController@productSearch')->name('product.search');
+Route::match(['get', 'post'], '/product-grids', 'FrontendController@productGrids')->name('product-grids');
 
 // // Cart section
 Route::middleware(['customer'])->group(function () {
@@ -75,68 +75,68 @@ Route::middleware(['customer'])->group(function () {
     // Coupon
     Route::post('/coupon-store', 'CouponController@couponStore')->name('coupon-store');
 });
-// // Thank You
-// Route::any('/thankyou', 'FrontendController@thankyou')->name('thankyou');
-// // Order Track
-// Route::get('/product/track', 'OrderController@orderTrack')->name('order.track');
-// Route::post('product/track/order', 'OrderController@productTrackOrder')->name('product.track.order');
-// // Blog
-// Route::get('/blogs', 'FrontendController@blogs')->name('blogs');
-// Route::get('/blog-detail/{slug}', 'FrontendController@blogDetail')->name('blog.detail');
-// Route::get('/blog/search', 'FrontendController@blogSearch')->name('blog.search');
-// Route::post('/blog/filter', 'FrontendController@blogFilter')->name('blog.filter');
-// Route::get('blog-cat/{slug}', 'FrontendController@blogByCategory')->name('blog.category');
-// Route::get('blog-tag/{slug}', 'FrontendController@blogByTag')->name('blog.tag');
+// Thank You
+Route::any('/thankyou', 'FrontendController@thankyou')->name('thankyou');
+// Order Track
+Route::get('/product/track', 'OrderController@orderTrack')->name('order.track');
+Route::post('product/track/order', 'OrderController@productTrackOrder')->name('product.track.order');
+// Blog
+Route::get('/blogs', 'FrontendController@blogs')->name('blogs');
+Route::get('/blog-detail/{slug}', 'FrontendController@blogDetail')->name('blog.detail');
+Route::get('/blog/search', 'FrontendController@blogSearch')->name('blog.search');
+Route::post('/blog/filter', 'FrontendController@blogFilter')->name('blog.filter');
+Route::get('blog-cat/{slug}', 'FrontendController@blogByCategory')->name('blog.category');
+Route::get('blog-tag/{slug}', 'FrontendController@blogByTag')->name('blog.tag');
 
-// // NewsLetter
-// Route::post('/subscribe', 'FrontendController@subscribe')->name('subscribe');
+// NewsLetter
+Route::post('/subscribe', 'FrontendController@subscribe')->name('subscribe');
 
-// // Product Review
-// Route::resource('/review', 'ProductReviewController');
-// Route::get('review', ['uses'=>'ProductReviewController@index', 'as'=>'review.index']);
-// Route::post('product/{slug}/review', 'ProductReviewController@store')->name('review.store');
-// Route::post('/product.review-delete-multiple', 'ProductReviewController@deleteMultipleRecord')->name('product.review.delete.multiple');
+// Product Review
+Route::resource('/review', 'ProductReviewController');
+Route::get('review', ['uses'=>'ProductReviewController@index', 'as'=>'review.index']);
+Route::post('product/{slug}/review', 'ProductReviewController@store')->name('review.store');
+Route::post('/product.review-delete-multiple', 'ProductReviewController@deleteMultipleRecord')->name('product.review.delete.multiple');
 
-// // Post Comment
-// Route::post('post/{slug}/comment', 'PostCommentController@store')->name('post-comment.store');
-// Route::resource('/comment', 'PostCommentController');
-// Route::get('comment', ['uses'=>'PostCommentController@index', 'as'=>'comment.index']);
-// Route::post('/comment-delete-multiple', 'PostCommentController@deleteMultipleRecord')->name('comment.delete.multiple');
+// Post Comment
+Route::post('post/{slug}/comment', 'PostCommentController@store')->name('post-comment.store');
+Route::resource('/comment', 'PostCommentController');
+Route::get('comment', ['uses'=>'PostCommentController@index', 'as'=>'comment.index']);
+Route::post('/comment-delete-multiple', 'PostCommentController@deleteMultipleRecord')->name('comment.delete.multiple');
 
-// Route::get('cms/{slug}', 'CmsDetailsController@viewCMSpage')->name('cms.page.view');
+Route::get('cms/{slug}', 'CmsDetailsController@viewCMSpage')->name('cms.page.view');
 
 
-// // Payment
-// // Route::get('payment', 'PayPalController@payment')->name('payment');
-// // Route::get('cancel', 'PayPalController@cancel')->name('payment.cancel');
-// // Route::get('payment/success', 'PayPalController@success')->name('payment.success');
+// Payment
+// Route::get('payment', 'PayPalController@payment')->name('payment');
+// Route::get('cancel', 'PayPalController@cancel')->name('payment.cancel');
+// Route::get('payment/success', 'PayPalController@success')->name('payment.success');
 
-// // My Account
-// Route::group(['prefix' => 'user', 'as' => 'user.', 'namespace' => 'Frontend', 'middleware' => ['customer']], function () {
-//     // Logout
-//     Route::get('logout', 'LoginController@logout')->name('logout');
-//     // // My Profile
-//     // Route::get('my-profile', 'MyProfileController@myProfile')->name('profile.form');
-//     // Route::post('my-profile', 'MyProfileController@updateMyProfile')->name('profile.update');
-//     // // Manage Address
-//     // Route::get('manage-address', 'CustomerAddressController@getAddressList')->name('address.list');
-//     // Route::post('get-address', 'CustomerAddressController@getAddressDetails')->name('address.details');
-//     // Route::post('change-primary-address', 'CustomerAddressController@changePrimaryAddress')->name('change.primary.address');
-//     // Route::post('manage-address', 'CustomerAddressController@storeOrUpdateAddress')->name('address.storeOrUpdate');
-//     // Route::delete('address-destroy', 'CustomerAddressController@addressDestroy')->name('address.destroy');
+// My Account
+Route::group(['prefix' => 'user', 'as' => 'user.', 'namespace' => 'Frontend', 'middleware' => ['customer']], function () {
+    // Logout
+    Route::get('logout', 'LoginController@logout')->name('logout');
+    // My Profile
+    Route::get('my-profile', 'MyProfileController@myProfile')->name('profile.form');
+    Route::post('my-profile', 'MyProfileController@updateMyProfile')->name('profile.update');
+    // Manage Address
+    Route::get('manage-address', 'CustomerAddressController@getAddressList')->name('address.list');
+    Route::post('get-address', 'CustomerAddressController@getAddressDetails')->name('address.details');
+    Route::post('change-primary-address', 'CustomerAddressController@changePrimaryAddress')->name('change.primary.address');
+    Route::post('manage-address', 'CustomerAddressController@storeOrUpdateAddress')->name('address.storeOrUpdate');
+    Route::delete('address-destroy', 'CustomerAddressController@addressDestroy')->name('address.destroy');
 
-//     // // User Change Password
-//     // Route::get('change-password', 'MyProfileController@userChangePassword')->name('change.password.form');
-//     // Route::post('change-password', 'MyProfileController@userChangePasswordStore')->name('change.password');
+    // User Change Password
+    Route::get('change-password', 'MyProfileController@userChangePassword')->name('change.password.form');
+    Route::post('change-password', 'MyProfileController@userChangePasswordStore')->name('change.password');
 
-//     // // Order History
-//     // Route::get('order-history', 'MyProfileController@orderHistory')->name('order.history');
-//     // Route::get('order-from-past-items', 'MyProfileController@orderFromPastItems')->name('order.past.items');
-//     // Route::post('order-details-by-id', 'MyProfileController@orderByID')->name('order.details.by.id');
+    // Order History
+    Route::get('order-history', 'MyProfileController@orderHistory')->name('order.history');
+    Route::get('order-from-past-items', 'MyProfileController@orderFromPastItems')->name('order.past.items');
+    Route::post('order-details-by-id', 'MyProfileController@orderByID')->name('order.details.by.id');
 
-//     // // My Points
-//     // Route::get('my-points', 'MyProfileController@myPoints')->name('points');
-// });
+    // My Points
+    Route::get('my-points', 'MyProfileController@myPoints')->name('points');
+});
 
 // Backend section start
 // Admin Login

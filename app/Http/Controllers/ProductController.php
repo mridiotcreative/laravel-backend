@@ -200,14 +200,15 @@ class ProductController extends Controller
 
                 $image_name[] = $imageName;
             }
+            $data['photo'] = implode(",", $image_name);
         }
-        if (!empty($request->previous_image)) {
-            foreach ($request->previous_image as $value) {
-                $image_name[] = $value;
-            }
-        }
+        // if (!empty($request->previous_image)) {
+        //     foreach ($request->previous_image as $value) {
+        //         $image_name[] = trim($value, "http://127.0.0.1:8000/storage/uploads/product/");
+        //     }
+        // }
 
-        $data['photo'] = implode(",", $image_name);
+        //$data['photo'] = implode(",", $image_name);
         //dd($data);
 
         // Upload Image
