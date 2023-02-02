@@ -8,6 +8,7 @@ use App\Models\State;
 use App\Models\CmsDetails;
 use App\Models\Category;
 use App\Models\Cart;
+use App\Models\Settings;
 use Auth;
 use Illuminate\Support\Arr;
 
@@ -180,5 +181,24 @@ class AppHelper
         $result_data[$key_name] = $result['data'];
 
         return $result_data;
+    }
+
+    public static function getSettingData()
+    {
+        $email = "";
+        $logo = "";
+
+        $emailData = Settings::where(['keys_data'=>'Email'])->first();
+        $logoData = Settings::where(['keys_data'=>'Logo'])->first();
+        if ($logoData) {
+            $logo = AppHelper::getStorageUrl(config('path.site_logo'), $logoData->values_data);
+        }
+        if ($emailData) {
+            $email = $emailData->values_data;
+        }
+        $data['email'] = $email;
+        $data['logo'] = $logo;
+
+        return $data;
     }
 }

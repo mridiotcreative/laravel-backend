@@ -30,8 +30,8 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            
-            
+
+
             $data = Category::with('parent_info');
             return Datatables::of($data)
                 ->addIndexColumn()
@@ -153,11 +153,12 @@ class CategoryController extends Controller
             $imageName = $now . AppHelper::replaceSpaceIntoDash($imagefile->getClientOriginalName());
             $imagefile->storeAs(config('path.category'), $imageName);
             $image_name = $imageName;
+
+            $data['photo'] = $image_name;
         }
-        if (!empty($request->previous_image)) {
-            $image_name = $request->previous_image;
-        }
-        $data['photo'] = $image_name;
+        // if (!empty($request->previous_image)) {
+        //     $image_name = $request->previous_image;
+        // }
 
         // Upload Image
         // if ($request->hasFile('photo')) {
@@ -222,15 +223,15 @@ class CategoryController extends Controller
                 "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
                 "Expires"             => "0"
             );
-    
+
             $columns = array('Title', 'Summary', 'Is Parent (1 Yes , 2 No)', 'Status(active,inactive)');
-    
+
             $callback = function() use($columns) {
                 $file = fopen('php://output', 'w');
                 fputcsv($file, $columns);
                 fclose($file);
             };
-    
+
             return response()->stream($callback, 200, $headers);
         } catch (Exception $error) {
             throw $error;
