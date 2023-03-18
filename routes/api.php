@@ -103,6 +103,7 @@ Route::namespace('Api')->group(
                 Route::post('/addToCart', 'CartController@addToCart');
                 Route::post('/cartDelete', 'CartController@cartDelete');
                 Route::get('/', 'CartController@index');
+                Route::post('/cart-remove', 'CartController@cartRemove');
             });
 
              // order api routes

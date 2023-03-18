@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Traits\HttpResponseTraits;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Arr;
 
 class CartController extends ApiController
 {
@@ -41,21 +42,21 @@ class CartController extends ApiController
         if ($request->quantity > 0) {
             $qty = !empty($request->quantity) ? $request->quantity : 1;
             $product = Product::where('id', $request->product_id)->first();
-
+            $product_price = str_replace(",", "", $product->price);
             $already_cart = Cart::where('customer_id', $request->user()->id)->where('product_id', $request->product_id)->where('order_id',null)->first();
             if ($already_cart) {
                 $already_cart->quantity = $already_cart->quantity + $qty;
-                $already_cart->price = $product->price;
-                $already_cart->amount = ($product->price * $already_cart->quantity);
+                $already_cart->price = $product_price;
+                $already_cart->amount = ($product_price * $already_cart->quantity);
                 $already_cart->save();
                 return $this->success(Lang::get('messages.update_cart'));
             } else {
                 $cart = new Cart;
                 $cart->customer_id = $request->user()->id;
                 $cart->product_id = $product->id;
-                $cart->price = $product->price;
+                $cart->price = $product_price;
                 $cart->quantity = $qty;
-                $cart->amount = $product->price * $cart->quantity;
+                $cart->amount = ($product_price * $cart->quantity);
                 $cart->save();
                 return $this->success(Lang::get('messages.add_cart'));
             }
@@ -79,5 +80,46 @@ class CartController extends ApiController
             return $this->success(Lang::get('messages.cart_remove_product'));
         }
         return $this->failure(Lang::get('messages.cart_remove_product_failed'), Response::HTTP_CONFLICT);
+    }
+
+    public function cartRemove(Request $request)
+    {
+        if ($this->apiValidation($request, [
+            'cart_id' => 'required|exists:App\Models\Cart,id',
+            'product_id' => 'required|exists:App\Models\Cart,product_id',
+        ])) {
+            return $this->errors(Lang::get('messages.validation_error'), $this->errorsMessages);
+        }
+
+        $product_id = !empty($request->product_id) ? $request->product_id : "";
+        $qty = !empty($request->quantity) ? $request->quantity : 1;
+
+        $product = Product::where('id', $request->product_id)->first();
+
+        if (empty($product)) {
+            return $this->failure(Lang::get('messages.not_found'), Response::HTTP_NOT_FOUND);
+        }
+
+        $already_cart = Cart::where(['customer_id'=>$request->user()->id,'order_id'=>null,'product_id'=>$product->id,'id'=> $request->cart_id])->first();
+
+        if (empty($already_cart)) {
+            return $this->failure(Lang::get('messages.not_found'), Response::HTTP_NOT_FOUND);
+        }
+
+        if ($already_cart->quantity == 1) {
+            $cart = Cart::where('id',$request->cart_id);
+            $cart->delete();
+        }
+
+        $already_cart->quantity = $qty;
+        $already_cart->amount = $already_cart->price * $already_cart->quantity;
+        // if ($already_cart->product->stock < $already_cart->quantity || $already_cart->product->stock <= 0) {
+        //     return response()->json(Lang::get('messages.out_of_stock'), Response::HTTP_BAD_REQUEST);
+        // }
+        //dd($already_cart);
+        if ($already_cart->save()) {
+            return $this->success(Lang::get('messages.cart_remove_product'));
+        }
+        return $this->failure(Lang::get('messages.something_went_wrong'), Response::HTTP_BAD_REQUEST);
     }
 }
