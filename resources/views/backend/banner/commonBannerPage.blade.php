@@ -48,7 +48,7 @@
                     <div id="image_preview" class="row">
                         @if(isset($banner->photo))
                         <span class="pip">
-                            <img class="imageThumb" src="{{ (new \App\Helpers\AppHelper)->getStorageUrl(config('path.banner'), $banner->photo) }}" title="{{ $banner->photo }}"/><br/>
+                            <img class="imageThumb" src="{{ $banner->getImage() }}" title="{{ $banner->photo }}"/><br/>
                             <span class="remove">Remove image</span>
                             <input type='hidden' class='filter_image' name='previous_image' value="{{ $banner->photo }}">
                         </span>
@@ -143,7 +143,7 @@
 
             $(document).on("click", ".remove", function() {
                 $(this).parent(".pip").remove();
-            });     
+            });
 
             $('#description').summernote({
                 placeholder: "Write short description.....",

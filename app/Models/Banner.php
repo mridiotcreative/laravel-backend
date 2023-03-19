@@ -10,12 +10,17 @@ class Banner extends Model
 {
     protected $fillable = ['title', 'slug', 'description', 'photo', 'status'];
 
-    public function getPhotoAttribute($value)
+    // public function getPhotoAttribute($value)
+    // {
+    //     if ($value) {
+    //         return AppHelper::getStorageUrl(config('path.banner'), $value);
+    //     } else {
+    //         return '';
+    //     }
+    // }
+
+    public function getImage()
     {
-        if ($value) {
-            return AppHelper::getStorageUrl(config('path.banner'), $value);
-        } else {
-            return '';
-        }
+        return url('storage/' . config('path.banner') . $this->photo);
     }
 }

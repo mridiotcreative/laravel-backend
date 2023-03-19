@@ -18,7 +18,13 @@ class HomeController extends ApiController
     public function index()
     {
         $limit = config('constants.PER_PAGE');
-        $banner = Banner::inRandomOrder()->select(['id','title','photo','description'])->paginate($limit);
+        $banner = Banner::where('status','active')->inRandomOrder()->select(['id','title','photo','description'])->paginate($limit);
+
+        if ($banner->count() > 0) {
+            foreach ($banner as $key => $value) {
+                $value->photo = $value->getImage();
+            }
+        }
 
         return $this->success(Lang::get('messages.home_page_data'), $banner);
     }

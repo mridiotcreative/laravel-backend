@@ -43,7 +43,7 @@ class BannerController extends Controller
                         $bphoto .= '<img src="'.asset('backend/img/thumbnail-default.jpg').'"
                             class="img-fluid zoom" style="max-width:100%" alt="avatar.png">';
                     }
-                    
+
                     return $bphoto;
                 })
                 ->addColumn('info_status', function($data){
@@ -61,7 +61,7 @@ class BannerController extends Controller
                             '.$checked.'>
                         <label class="custom-control-label" for="customSwitch-'.$data->id.'"></label>
                     </div>';
-                    
+
                     return $info_status;
                 })->addColumn('action', function($data){
 
