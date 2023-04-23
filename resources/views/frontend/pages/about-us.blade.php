@@ -34,7 +34,7 @@
                         <p>ABOUT US</p>
                     </div>
                     <div class="about-para-banner">
-                        <p>OVERVIEW OF Valunova</p>
+                        <p>OVERVIEW OF Mridiot</p>
                     </div>
                 </div>
             </div>
@@ -53,10 +53,10 @@
                 <div class="col-lg-6">
                     <div class="about-right">
                         <div class="about-head">
-                            <h2>Welcome to ValuNova</h2>
+                            <h2>Welcome to Mridiot</h2>
                         </div>
                         <div class="about-para">
-                            <p>Valunova Lifesciences Private Limited is a 1 year 9 months old Private Company
+                            <p>Mridiot Lifesciences Private Limited is a 1 year 9 months old Private Company
                                 incorporated
                                 on 01 Jul 2020. Its registered office is in Ahmedabad, Gujarat, india. <br />
                                 The Company's status is Active, and it has filed its Annual Returns and Financial

@@ -4,7 +4,7 @@
     <div class="footer-top section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-6 col-12">
+                {{-- <div class="col-lg-3 col-md-6 col-12">
                     <!-- Single Widget -->
                     <div class="single-footer links">
                         <h4>Company</h4>
@@ -43,7 +43,7 @@
                         </ul>
                     </div>
                     <!-- End Single Widget -->
-                </div>
+                </div> --}}
                 <div class="col-lg-3 col-md-6 col-12">
                     <!-- Single Widget -->
                     <div class="single-footer social">
@@ -91,7 +91,7 @@
                     <!-- End Single Widget -->
                 </div>
                 <div class="allrights">
-                    <p>© 2022 VALUNOVA. All Rights Reserved</p>
+                    <p>© 2023 MR IDIOT. All Rights Reserved</p>
                 </div>
             </div>
         </div>

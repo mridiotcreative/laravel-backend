@@ -404,7 +404,7 @@ Version:1.0
 
     .register-left {
         padding-top: 50px;
-        padding-bottom: 50px;
+        padding-bottom: 25px;
     }
 
     section.register-main .container {
@@ -503,7 +503,8 @@ Version:1.0
     }
 
     .section {
-        padding: 50px 0px;
+        /* padding: 50px 0px; */
+        padding: 0px 0px;
     }
 
     .shop.single {
@@ -802,7 +803,7 @@ Version:1.0
     }
 
     .most-popular .single-product {
-        margin: 0;
+        margin: 18px;
     }
 
     .shop-home-list .shop-section-title {
@@ -1101,8 +1102,10 @@ Version:1.0
     }
 
     .header .search-form button {
-        background: #005778;
-        color: white;
+        /* background: #005778;
+        color: white; */
+        background: #f3e364;
+        color: #005778;
     }
 
     header.header.shop.sticky .right-content ul.list-main {
@@ -1126,7 +1129,7 @@ Version:1.0
 
     header.header.shop.sticky .logo {
         top: 18px;
-        display: none;
+        /* display: none; */
     }
 
     header.header.shop.sticky .slicknav_menu a.slicknav_btn.slicknav_collapsed {
@@ -1195,7 +1198,7 @@ Version:1.0
     }
 
     .logo img {
-        max-width: 91px !important;
+        max-width: 81px !important;
     }
 
     .logo {
@@ -1491,7 +1494,10 @@ Version:1.0
     }
 
     .register-img img {
-        width: 63%;
+        /* width: 63%; */
+        border-radius: 140px;
+        width: 145px;
+        height: 138px;
         margin: 0 auto;
         text-align: center;
         display: flex;
@@ -1499,7 +1505,7 @@ Version:1.0
 
     .register-left {
         padding-top: 50px;
-        padding-bottom: 50px;
+        padding-bottom: 25px;
     }
 
     .earn-points-list {
@@ -1566,6 +1572,10 @@ Version:1.0
     }
 
     .single-product .product-img a img {
+        object-fit: contain;
+    }
+
+    .single-product-category .product-img-category a img {
         object-fit: contain;
     }
 
@@ -1704,6 +1714,10 @@ Version:1.0
         margin-right: 0;
     }
 
+    /* .single-product-div{
+        width: 162px !important;
+        float: left;
+    } */
     .intensive-btn button {
         margin-right: 0;
         width: 71%;
@@ -1812,10 +1826,10 @@ Version:1.0
         margin-bottom: 50px;
     }
 
-    .shop.login .login-form .lost-pass {
+    /* .shop.login .login-form .lost-pass {
         margin-left: 0;
         padding-right: 0;
-    }
+    } */
 
     .login-para h3 {
         padding-bottom: 10px;
@@ -1985,9 +1999,9 @@ Version:1.0
         display: none;
     }
 
-    .header.shop .right-bar {
-        /* display: none; */
-    }
+    /* .header.shop .right-bar {
+        display: none;
+    } */
 
     .header .middle-inner {
         width: 100%;
@@ -1997,7 +2011,7 @@ Version:1.0
         position: fixed;
         top: 0;
         left: 0;
-        background: #fff;
+        background: #f3e364;
         animation: fadeInDown 1s both 0.2s;
         -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
         -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
@@ -2021,7 +2035,8 @@ Version:1.0
     }
 
     .section {
-        padding: 50px 0px;
+        /* padding: 50px 0px; */
+        padding: 0px 0px;
     }
 
     .section-title {
@@ -2250,7 +2265,7 @@ Version:1.0
     }
 
     .most-popular .single-product {
-        margin: 0;
+        margin: 14px;
         margin-top: 23px;
     }
 
@@ -2797,6 +2812,52 @@ Version:1.0
     .my-account-main .my-account-title .title {
         font-size: 16px;
     }
+
+    .most-popular .single-product {
+        margin: 0px;
+        margin-top: 23px;
+    }
+
+    .most-popular .single-product-category {
+        margin: 0;
+        margin-top: 23px;
+    }
+
+    .most-popular .single-product-category {
+        margin: 20px 15px 0 15px;
+        margin-left: 0;
+        margin-right: 0;
+        height: 84px;
+        width: 86px;
+    }
+
+    .single-product-category .product-img-category a img{
+        height: 80px;
+        padding: 11px;
+    }
+
+    .single-product .product-img a img {
+        height: 141px;
+        padding: 10px;
+    }
+
+    .single-product .button-head{
+        display: none;
+    }
+    .second-add-to-cart-button {
+        display: block;
+        background-color: white;
+        border-color: white;
+        font-size: 24px;
+        color: black;
+        margin-left: 46px;
+    }
+
+    .single-index-product {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 22px;
+    }
 }
 
 /* Mobile and ipad menu */
@@ -3014,7 +3075,8 @@ Version:1.0
     }
 
     .section {
-        padding: 50px 0px;
+        /* padding: 50px 0px; */
+        padding: 0px 0px;
     }
 
     .section-title {
@@ -3036,7 +3098,8 @@ Version:1.0
     }
 
     .header.shop .topbar {
-        background: #fff;
+        /* background: #fff; */
+        background: #f3e364;
     }
 
     .header.shop .topbar .top-left {
@@ -3071,7 +3134,7 @@ Version:1.0
 
     .header.shop .topbar .right-content {
         margin-top: 4px;
-        border-top: 1px solid #ffffff87;
+        /* border-top: 1px solid #ffffff87; */
     }
 
     .header.shop .search-bar {

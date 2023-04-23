@@ -48,6 +48,10 @@ Route::namespace('Api')->group(
          Route::get('/home-banner', 'HomeController@index');
          Route::get('/users-story', 'HomeController@userStory');
          Route::get('/all-video-shorts', 'HomeController@allVideoPhotoShorts');
+         Route::post('/all-video-photo-shorts-by-id', 'HomeController@allVideoPhotoShortsByID');
+         Route::post('/comments-of-video-photo-shorts-by-id', 'HomeController@commentsOfVideoPhotoShortsByID');
+         Route::get('/all-videos', 'HomeController@allVideoShorts');
+         Route::get('/all-phots', 'HomeController@allPhotosShorts');
 
          Route::prefix('category')->group(function(){
             Route::get('/get-category', 'HomeController@getCategory');
@@ -78,6 +82,11 @@ Route::namespace('Api')->group(
             Route::post('remove-like', 'UserController@removeLike');
             Route::post('remove-comment', 'UserController@removeComment');
             Route::post('remove-dislike', 'UserController@removeDislike');
+            Route::post('/reply-comment', 'UserController@replyComment');
+            Route::post('/add-reply-like', 'UserController@addReplyLike');
+            Route::post('/add-reply-like', 'UserController@addReplyLike');
+            Route::post('/add-video-watch-time', 'UserController@addVideoWatchTime');
+            Route::post('/add-story-watch-time', 'UserController@addStoryWatchTime');
 
             //follower Info
             Route::post('get-user-profile', 'UserController@getUserProfile');

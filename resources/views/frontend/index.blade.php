@@ -1,6 +1,13 @@
 @extends('frontend.layouts.master')
 @section('title', __('page_title.home'))
 @section('main-content')
+
+<style>
+    /* .singleProductCategory .owl-carousel .owl-item{
+        width: 192px !important;
+        margin-right: 0px !important;
+    } */
+</style>
     <!-- Slider Area -->
     @if (count($banners) > 0)
         <section id="Gslider" class="carousel slide" data-ride="carousel">
@@ -16,68 +23,37 @@
 
     <!--/ End Slider Area -->
 
-    <!-- Start Small Banner  -->
-    <section class="small-banner section">
-        <div class="container">
-            <div class="row">
-                <!-- Single Banner  -->
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <a href="{{ route('user.order.history') }}">
-                        <div class="single-banner">
-                            <img src="/frontend/img/small1.svg" alt="">
-                            <div class="content">
-                                <p>Order </p>
-                                <p>History</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <!-- End Single Banner  -->
-                <!-- Single Banner  -->
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <a href="{{ route('user.order.past.items') }}">
-                        <div class="single-banner">
-                            <img src="/frontend/img/small2.svg" alt="">
-                            <div class="content">
-                                <p>Order </p>
-                                <p>from past items</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <!-- End Single Banner  -->
-                <!-- Single Banner  -->
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-banner">
-                        <img src="/frontend/img/small3.svg" alt="">
-                        <div class="content">
-                            <p>Scan </p>
-                            <p>your QR</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Banner  -->
-            </div>
-        </div>
-    </section>
-    <!-- End Small Banner -->
-
     <!-- Start Most Popular -->
     <div class="product-area most-popular section shop-by-categories">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="section-title">
-                        <h2>Shop by Category</h2>
-                        <div class="view-all">
-                            <a href="{{ route('product-grids') }}">View All</a>
-                        </div>
+                        {{-- <h2>Shop by Category</h2> --}}
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
-                    <div class="owl-carousel popular-slider">
+                <div class="col-12 singleProductCategory">
+                    <div class="owl-carousel product-popular-slider">
+                        @foreach ($product_lists as $product)
+                            <div class="single-product-category single-product">
+                                <div class="product-img-category">
+                                    <a href="{{ route('product-detail', $product->slug) }}">
+                                        <img class="default-img" src="{{ $product->photo[0] }}"
+                                            alt="{{ $product->title }}">
+                                    </a>
+                                </div>
+                                {{-- <div class="product-content">
+                                    <h3><a
+                                            href="{{ route('product-detail', $product->slug) }}">{{ $product->title }}</a>
+                                    </h3>
+                                </div> --}}
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="owl-carousel popular-slider d-none">
                         @foreach ($product_lists as $product)
                             <!-- Start Single Product -->
                             <div class="single-product">
@@ -125,40 +101,10 @@
     </div>
     <!-- End Most Popular Area -->
 
-
-    {{-- Earn Points section starts here --}}
-    <div class="container">
-        <div class="earn-points-main">
-            <div class="row">
-                <div class="col-lg-3 col-md-4">
-                    <div class="earn-logo">
-                        <img src="/frontend/img/earn-logo.svg" alt="">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="earn-points-head">
-                        <h3>Earn up to <br />
-                            <span>1000 Points</span>a month
-                        </h3>
-                        <div class="earn-points-para">
-                            <p>* Terms and conditions applied</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-2">
-                    <div class="intensive-btn">
-                        <button>Incentive </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {{-- Earn Points section ends here --}}
-
     {{-- top deal section starts here --}}
     <div class="product-area most-popular section top-deal-main">
         <div class="container">
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-12">
                     <div class="section-title">
                         <h2>Top Deals</h2>
@@ -167,110 +113,53 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="owl-carousel popular-slider">
+            </div> --}}
+            {{-- <div class="row"> --}}
+                <div class="row single-index-product product_main_div">
+                    {{-- <div class="owl-carousel popular-slider"> --}}
                         @foreach ($product_lists as $product)
                             <!-- Start Single Product -->
-                            <div class="single-product">
-                                <div class="product-img">
-                                    @php
-                                        $newPhoto = '';
-                                    @endphp
-                                    <a href="{{ route('product-detail', $product->slug) }}">
-                                        <img class="default-img" src="{{ $product->photo[0] }}"
-                                            alt="{{ $product->title }}">
-                                        {{-- <span class="out-of-stock">Hot</span> --}}
-                                    </a>
-
-                                </div>
-                                <div class="product-content">
-                                    <h3><a
-                                            href="{{ route('product-detail', $product->slug) }}">{{ $product->title }}</a>
-                                    </h3>
-                                    @php
-                                        //$after_discount = $product->price - ($product->price * $product->discount) / 100;
-
-                                        $new_price = ($product->price_master_info != null) ? $product->price_master_info->special_price : (($product->offer_master_info != null)  ? $product->offer_master_info->special_price : $product->price);
-                                    @endphp
-                                    <div class="retail-prise">
-                                        <p>Retail price*</p>
-                                        <span>Rs.{{ $new_price }}</span>
+                            <div class="col-lg-4 col-md-6 col-12 product_row_div">
+                                <div class="single-product">
+                                    <div class="product-img">
+                                        @php
+                                            $newPhoto = '';
+                                        @endphp
+                                        <a href="{{ route('product-detail', $product->slug) }}">
+                                            <img class="default-img" src="{{ $product->photo[0] }}"
+                                                alt="{{ $product->title }}">
+                                        </a>
 
                                     </div>
-                                    <div class="mrp-cut">
-                                        <p>MRP RS.</p>
-                                        <span class="old">{{ $product->price }}</span>
-                                    </div>
-                                    <div class="button-head">
-                                        <div class="product-action">
+                                    <div class="product-content">
+                                        <h3><a href="{{ route('product-detail', $product->slug) }}">{{ $product->title }}</a></h3>
+                                        @php
+                                            $new_price = ($product->price_master_info != null) ? $product->price_master_info->special_price : (($product->offer_master_info != null)  ? $product->offer_master_info->special_price : $product->price);
+                                        @endphp
+                                        <div class="retail-prise">
+                                            <span>Rs.{{ $new_price }}</span>
+                                            <button data-id="{{ $product->slug }}" class="btn-add-to-cart second-add-to-cart-button">+</button>
                                         </div>
-                                        <div class="product-action-2">
-                                            <button data-id="{{ $product->slug }}" class="btn-add-to-cart">Add to
-                                                cart</button>
+                                        <div class="button-head">
+                                            <div class="product-action">
+                                            </div>
+                                            <div class="product-action-2">
+                                                <button data-id="{{ $product->slug }}" class="btn-add-to-cart first-add-to-cart-button">Add to
+                                                    cart</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- End Single Product -->
                         @endforeach
-                    </div>
+                    {{-- </div> --}}
                 </div>
-            </div>
+            {{-- </div> --}}
         </div>
     </div>
 
     {{-- top deal section ends here --}}
-
-
-    <div class="health-artical-main">
-        <div class="container">
-            <div class="health-article-head-top">
-                <h1>Health Articles</h1>
-                <div class="view-all">
-                    <a href="{{ route('blogs') }}">See All</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="owl-carousel popular-slider blog-home-slider">
-                        @foreach ($posts as $post)
-                            <!-- Start Single Product -->
-                            <div class="single-product">
-                                <div class="article-body-main">
-                                    <div class="article-img">
-                                        <a href="{{ route('blog.detail', $post->slug) }}"><img
-                                                src="{{ $post->photo[0] }}" alt=""></a>
-                                    </div>
-                                    <div class="article-time-main">
-                                        <ul>
-                                            <li>2 min read</li>
-                                            <li class="date">{{ $post->created_at->format('M d, Y') }}</li>
-
-                                        </ul>
-                                    </div>
-                                    <div class="health-article-head">
-                                        <a href="{{ route('blog.detail', $post->slug) }}">
-                                            <h4>{{ $post->title }}</h4>
-                                        </a>
-                                    </div>
-                                    <div class="health-article-para">
-                                        {!! $post->summary !!}
-                                    </div>
-                                    <div class="health-article-read">
-                                        <a href="{{ route('blog.detail', $post->slug) }}">Read
-                                            More</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single Product -->
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @push('styles')
@@ -291,11 +180,11 @@
             /* height: 550px; */
         }
 
-        #Gslider .carousel-inner img {
+        /* #Gslider .carousel-inner img {
             width: 100% !important;
             opacity: .8;
             height: 458px !important;
-        }
+        } */
 
         #Gslider .carousel-inner .carousel-caption {
             bottom: 60%;

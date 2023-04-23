@@ -64,7 +64,7 @@
                                 <!-- Description -->
                                 <div class="short">
                                     <h4>{{ $product_detail->title }}</h4>
-                                    <div class="rating-main">
+                                    {{-- <div class="rating-main">
                                         <ul class="rating">
                                             @php
                                                 $rate = ceil($product_detail->getReview->avg('rate'));
@@ -79,7 +79,7 @@
                                         </ul>
                                         <a href="#" class="total-review">({{ $product_detail['getReview']->count() }})
                                             Review</a>
-                                    </div>
+                                    </div> --}}
                                     @php
                                         $after_discount = $product_detail->price - ($product_detail->price * $product_detail->discount) / 100;
                                         $new_price = ($product_detail->price_master_info != null) ? $product_detail->price_master_info->special_price : (($product_detail->offer_master_info != null)  ? $product_detail->offer_master_info->special_price : $product_detail->price);
@@ -91,8 +91,8 @@
 
                                         <span class="discount">Rs.{{ number_format($new_price, 2) }}
                                         </span>
-                                        <s>Rs.{{ number_format($product_detail->price, 2) }}
-                                        </s>
+                                        {{-- <s>Rs.{{ number_format($product_detail->price, 2) }}
+                                        </s> --}}
 
                                     </p>
                                     <div class="taxt-main">
@@ -162,7 +162,7 @@
                                 </div>
                                 <!--/ End Product Buy -->
 
-                                <div class="offer-points-main">
+                                <div class="offer-points-main d-none">
                                     <div class="offer-point-img-main">
                                         <div class="offer-img">
                                             <img src="/frontend/img/setting.svg" alt="">
@@ -191,7 +191,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="product-info">
-                                        <div class="nav-main">
+                                        {{-- <div class="nav-main">
                                             <!-- Tab Nav -->
                                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                                 <li class="nav-item"><a class="nav-link active" data-toggle="tab"
@@ -200,7 +200,7 @@
                                                         href="#reviews" role="tab">Ratings and Reviews</a></li>
                                             </ul>
                                             <!--/ End Tab Nav -->
-                                        </div>
+                                        </div> --}}
                                         <div class="tab-content" id="myTabContent">
                                             <!-- Description Tab -->
                                             <div class="tab-pane fade show active" id="description" role="tabpanel">
@@ -216,7 +216,7 @@
                                             </div>
                                             <!--/ End Description Tab -->
                                             <!-- Reviews Tab -->
-                                            <div class="tab-pane fade" id="reviews" role="tabpanel">
+                                            {{-- <div class="tab-pane fade" id="reviews" role="tabpanel">
                                                 <div class="tab-single review-panel">
                                                     <div class="row">
                                                         <div class="col-12">
@@ -245,12 +245,6 @@
 
                                                             <div class="ratting-main">
                                                                 <div class="avg-ratting">
-                                                                    {{-- @php
-																					$rate=0;
-																					foreach($product_detail->rate as $key=>$rate){
-																						$rate +=$rate
-																					}
-																				@endphp --}}
                                                                     <h4>{{ ceil($product_detail->getReview->avg('rate')) }}
                                                                         <span>(Overall)</span>
                                                                     </h4>
@@ -303,7 +297,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <!--/ End Reviews Tab -->
                                         </div>
                                     </div>
@@ -320,7 +314,7 @@
     <!--/ End Shop Single -->
 
     <!-- Start Most Popular -->
-    <div class="product-area most-popular related-product section">
+    {{-- <div class="product-area most-popular related-product section">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -333,7 +327,7 @@
                 </div>
             </div>
             <div class="row">
-                {{-- {{$product_detail->rel_prods}} --}}
+                {{$product_detail->rel_prods}}
                 <div class="col-12">
                     <div class="owl-carousel popular-slider">
                         @foreach ($product_detail->rel_prods as $data)
@@ -345,7 +339,7 @@
                                             <img class="default-img" src="{{ $data->photo[0] }}"
                                                 alt="{{ $data->title }}">
                                             <span class="price-dec">{{ $data->discount }} % Off</span>
-                                            {{-- <span class="out-of-stock">Hot</span> --}}
+                                            <span class="out-of-stock">Hot</span>
                                         </a>
 
                                     </div>
@@ -387,7 +381,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- End Most Popular Area -->
 
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Models\Users_story;
 use App\Models\Banner;
 use App\Models\UsersVideoPhoto;
+use App\Models\videoComments;
+use App\Models\replyComments;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -40,8 +42,49 @@ class HomeController extends ApiController
     public function allVideoPhotoShorts()
     {
         $limit = config('constants.PER_PAGE');
-       $userStory = UsersVideoPhoto::with(['user','likes','dislikes','comments'])->inRandomOrder()->paginate($limit);
+       $userStory = UsersVideoPhoto::with(['user','likes','dislikes','comments','comments.replyComments','comments.commentsLikes'])->inRandomOrder()->paginate($limit);
        return $this->success(Lang::get('messages.home_page_data'), $userStory);
+    }
+
+    public function allVideoShorts()
+    {
+        $limit = config('constants.PER_PAGE');
+       $userStory = UsersVideoPhoto::where('upload_type','1')->with(['user','likes','dislikes','comments','comments.replyComments','comments.commentsLikes'])->inRandomOrder()->paginate($limit);
+       return $this->success(Lang::get('messages.home_page_data'), $userStory);
+    }
+
+    public function allPhotosShorts()
+    {
+        $limit = config('constants.PER_PAGE');
+       $userStory = UsersVideoPhoto::where('upload_type','2')->with(['user','likes','dislikes','comments','comments.replyComments','comments.commentsLikes'])->inRandomOrder()->paginate($limit);
+       return $this->success(Lang::get('messages.home_page_data'), $userStory);
+    }
+
+    public function allVideoPhotoShortsByID(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'id' => 'required|exists:App\Models\UsersVideoPhoto,id',
+            ]
+        );
+        $limit = config('constants.PER_PAGE');
+        // $userVideoPhoto = UsersVideoPhoto::where('id',$request->id)->with(['user','likes','dislikes','comments'])->inRandomOrder()->paginate($limit);
+        $userVideoPhoto = UsersVideoPhoto::where('id',$request->id)->with(['user','likes','dislikes','comments','comments.replyComments','comments.commentsLikes'])->first();
+        return $this->success(Lang::get('messages.home_page_data'), $userVideoPhoto);
+    }
+
+    public function commentsOfVideoPhotoShortsByID(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'id' => 'required|exists:App\Models\UsersVideoPhoto,id',
+            ]
+        );
+        $limit = config('constants.PER_PAGE');
+        $userVideoPhoto = videoComments::where('video_id',$request->id)->with(['user','replyComments','commentsLikes'])->paginate($limit);
+        return $this->success(Lang::get('messages.home_page_data'), $userVideoPhoto);
     }
 
     public function getCategory()

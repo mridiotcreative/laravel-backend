@@ -178,6 +178,50 @@ window.onload = () => {
         });
 
         $(".popular-slider").owlCarousel({
+            items: 2,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            smartSpeed: 400,
+            animateIn: "slideInUp",
+            animateOut: "slideOutUp",
+            autoplayHoverPause: true,
+            margin: 15,
+            loop: false,
+            nav: false,
+            merge: true,
+            dots: false,
+            rewind: true,
+            navText: [
+                '<i class="ti-angle-left"></i>',
+                '<i class="ti-angle-right"></i>',
+            ],
+            responsive: {
+                0: {
+                    items: 1,
+                },
+                300: {
+                    items: 2,
+                },
+                480: {
+                    items: 2,
+                },
+                768: {
+                    items: 2,
+                },
+                1170: {
+                    items: 4,
+                },
+            },
+        });
+
+        // $('.owl-carousel').data('owl.carousel').difference = function(first, second) {
+        //     return {
+        //         x: first.x - second.x + (first.y - second.y),
+        //         y: first.y - second.y
+        //     };
+        // };
+
+        $(".product-popular-slider").owlCarousel({
             items: 1,
             autoplay: true,
             autoplayTimeout: 5000,
@@ -185,9 +229,9 @@ window.onload = () => {
             animateIn: "fadeIn",
             animateOut: "fadeOut",
             autoplayHoverPause: true,
-            margin: 15,
+            margin: 10,
             loop: true,
-            nav: true,
+            nav: false,
             merge: true,
             dots: false,
             navText: [
@@ -199,16 +243,16 @@ window.onload = () => {
                     items: 1,
                 },
                 300: {
-                    items: 1,
+                    items: 3,
                 },
                 480: {
-                    items: 2,
+                    items: 3,
                 },
                 768: {
                     items: 3,
                 },
                 1170: {
-                    items: 4,
+                    items: 5,
                 },
             },
         });
