@@ -8,7 +8,7 @@ class UsersVideoPhoto extends Model
 {
     protected $table = 'users_video_photos';
 
-    protected $fillable = ['user_id','upload_type','upload_url','description'];
+    protected $fillable = ['user_id','upload_type','upload_url','description','thumbnail_upload_url'];
 
     protected $hidden = [
         'created_at', 'updated_at'
@@ -35,6 +35,15 @@ class UsersVideoPhoto extends Model
     }
 
     public function getUploadUrlAttribute($value)
+    {
+        if ($value) {
+            return asset('storage/uploads/user/' . $value);
+        } else {
+            return '';
+        }
+    }
+
+    public function getThumbnailUploadUrlAttribute($value)
     {
         if ($value) {
             return asset('storage/uploads/user/' . $value);

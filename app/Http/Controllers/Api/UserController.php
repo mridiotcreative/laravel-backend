@@ -8,7 +8,10 @@ use App\Models\videoComments;
 use App\Models\videoLikes;
 use App\Models\VideoDislikes;
 use App\Models\FollowUsers;
-use App\Models\Banner;
+use App\Models\replyComments;
+use App\Models\commentLikes;
+use App\Models\videoWatchTime;
+use App\Models\storyWatchTime;
 use App\User;
 use App\Models\CustomerAddress;
 use Illuminate\Http\Request;
@@ -58,6 +61,7 @@ class UserController extends ApiController
             [
                 'upload_type' => 'required|in:1,2,3',
                 'upload_url' => 'required|file|mimes:mp4,jpg,jpeg,png|max:20000',
+                'thumbnail_upload_url' => 'required|file|mimes:jpg,jpeg,png|max:20000',
             ]
         );
 
@@ -73,6 +77,15 @@ class UserController extends ApiController
             $request->upload_url->storeAs(config('path.user'), $upload_urlName);
             $data['upload_url'] = $upload_urlName;
         }
+
+        if ($request->hasFile('thumbnail_upload_url')) {
+            $now = date('ymds') . '-';
+            $thumbnail_upload_url = $request->file('thumbnail_upload_url');
+            $thumbnail_upload_urlName = $now . AppHelper::replaceSpaceIntoDash($thumbnail_upload_url->getClientOriginalName());
+            $request->thumbnail_upload_url->storeAs(config('path.user'), $thumbnail_upload_urlName);
+            $data['thumbnail_upload_url'] = $thumbnail_upload_urlName;
+        }
+
         $data['description'] = $request->description ? $request->description : "";
         $data['user_id'] = $request->user()->id;
         $status = $user->fill($data)->save();
@@ -111,11 +124,17 @@ class UserController extends ApiController
             $modelObj->video_id = $request->video_id;
             $modelObj->user_id = $request->user()->id;
         }
-
         $status = $modelObj->save();
-
         if($status){
-            return $this->success(Lang::get('messages.user_add'));
+            $userVideoPhoto = UsersVideoPhoto::where('id',$request->video_id)->with(['likes','dislikes'])->first();
+            if ($request->type == 1) {
+                VideoDislikes::where(['video_id'=>$request->video_id,'user_id'=>$request->user()->id])->delete();
+                $changeResponse['likes'] = $userVideoPhoto->likes;
+            } else {
+                videoLikes::where(['video_id'=>$request->video_id,'user_id'=>$request->user()->id])->delete();
+                $changeResponse['dislikes'] = $userVideoPhoto->dislikes;
+            }
+            return $this->success(Lang::get('messages.user_add'), $changeResponse);
         }
         return $this->failure(Lang::get('messages.user_add_failed'), Response::HTTP_CONFLICT);
     }
@@ -312,5 +331,101 @@ class UserController extends ApiController
              return $this->success(Lang::get('messages.success'), $result);
         }
         return $this->failure(Lang::get('messages.not_found'), Response::HTTP_CONFLICT);
+    }
+
+    public function replyComment(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'comment_id' => 'required|exists:App\Models\videoComments,id',
+                'user_comment' => 'required',
+            ]
+        );
+
+        $videoObj = new replyComments();
+        $videoObj->user_comment = $request->user_comment;
+        $videoObj->comment_id = $request->comment_id;
+        $videoObj->user_id = $request->user()->id;
+        $status = $videoObj->save();
+
+        if($status){
+            return $this->success(Lang::get('messages.user_add'));
+        }
+        return $this->failure(Lang::get('messages.user_add_failed'), Response::HTTP_CONFLICT);
+    }
+
+    public function addReplyLike(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'type' => 'required|in:1,2',
+                'comment_id' => 'required|exists:App\Models\videoComments,id',
+            ]
+        );
+
+        $data = $request->all();
+
+        if ($request->type == 1) {
+            $modelObj = commentLikes::where(['comment_id'=>$request->comment_id,'user_id'=>$request->user()->id])->first();
+            if (!$modelObj) {
+                $modelObj = new commentLikes();
+            }
+            $modelObj->comment_id = $request->comment_id;
+            $modelObj->user_id = $request->user()->id;
+            $status = $modelObj->save();
+        }
+        if ($request->type == 2) {
+            $status = commentLikes::where(['comment_id'=>$request->comment_id,'user_id'=>$request->user()->id])->delete();
+        }
+        if($status){
+            return $this->success(Lang::get('messages.user_add'));
+        }
+        return $this->failure(Lang::get('messages.user_add_failed'), Response::HTTP_CONFLICT);
+    }
+
+    public function addVideoWatchTime(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'video_id' => 'required|exists:App\Models\UsersVideoPhoto,id',
+                'watch_time' => 'required',
+            ]
+        );
+
+        $videoObj = new videoWatchTime();
+        $videoObj->video_id = $request->video_id;
+        $videoObj->watch_time = $request->watch_time;
+        $videoObj->user_id = $request->user()->id;
+        $status = $videoObj->save();
+
+        if($status){
+            return $this->success(Lang::get('messages.user_add'));
+        }
+        return $this->failure(Lang::get('messages.user_add_failed'), Response::HTTP_CONFLICT);
+    }
+
+    public function addStoryWatchTime(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'story_id' => 'required|exists:App\Models\Users_story,id',
+                'watch_time' => 'required',
+            ]
+        );
+
+        $videoObj = new storyWatchTime();
+        $videoObj->story_id = $request->story_id;
+        $videoObj->watch_time = $request->watch_time;
+        $videoObj->user_id = $request->user()->id;
+        $status = $videoObj->save();
+
+        if($status){
+            return $this->success(Lang::get('messages.user_add'));
+        }
+        return $this->failure(Lang::get('messages.user_add_failed'), Response::HTTP_CONFLICT);
     }
 }

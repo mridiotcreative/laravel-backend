@@ -7,7 +7,6 @@
                     <!-- Top Left -->
                     @php
                         $getSettingData = (new \App\Helpers\AppHelper)->getSettingData();
-                        //dd($getSettingData['email']);
                     @endphp
                     <div class="top-left">
                         <ul class="list-main">
@@ -127,25 +126,11 @@
                                                 </a>
                                             </div>
                                             <li>
-                                                <!-- <div class="home-icon"> -->
-                                                    <a href="{{ route('home') }}">
-                                                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22"
-                                                            viewBox="0 0 20 22" fill="none">
-                                                            <path
-                                                                d="M1 8L10 1L19 8V19C19 19.5304 18.7893 20.0391 18.4142 20.4142C18.0391 20.7893 17.5304 21 17 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V8Z"
-                                                                stroke="white" stroke-width="1.5" stroke-linecap="round"
-                                                                stroke-linejoin="round" />
-                                                            <path d="M7 21V11H13V21" stroke="white" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                        </svg> -->
-                                                        Home
-                                                    </a>
-                                                <!-- </div> -->
+                                                <a href="{{ route('home') }}">
+                                                    Home
+                                                </a>
                                             </li>
-                                            <li class=""><a href="/#">Top Deals</a></li>
-                                            <li class=""><a href="/#">Incentive</a></li>
-                                            <li class=""><a href="{{ route('blogs') }}">Health
-                                                    Article</a></li>
+                                            <li class=""><a href="{{ route('product-grids') }}">Shop</a></li>
                                             <li class="">
                                                 <a href="{{ route('about-us') }}">AboutUs</a>
                                             </li>
@@ -153,12 +138,6 @@
                                                 <a href="{{ route('contact') }}">Support</a>
                                             </li>
                                             @auth('customer')
-                                                {{-- <li class="my-account">
-                                                    <a href="{{ route('user.profile.form') }}">
-                                                        <i class="ti-user"></i>
-                                                        <span> My Account</span>
-                                                    </a>
-                                                </li> --}}
                                                 <li class="sticky-menu">
                                                     <a href="{{ route('user.logout') }}"> <img
                                                             src="/frontend/img/logout.svg" alt="">

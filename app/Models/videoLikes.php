@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class videoLikes extends Model
 {
-    use SoftDeletes;
+    // use SoftDeletes;
     protected $fillable = ['user_id', 'video_id'];
 
     public function user()

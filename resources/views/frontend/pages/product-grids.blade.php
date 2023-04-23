@@ -74,25 +74,25 @@
                                 <!--/ End Shop Top -->
                             </div>
                         </div>
-                        <div class="row product_main_div">
+                        <div class="row most-popular single-index-product product_main_div">
                             @if (count($products) > 0)
                                 @foreach ($products as $product)
 
                                     @php
                                         //$after_discount = $product->price - ($product->price * $product->discount) / 100;
-                                        $new_price = ($product->price_master_info != null) ? $product->price_master_info->special_price : (($product->offer_master_info != null)  ? $product->offer_master_info->special_price : $product->price);  
+                                        $new_price = ($product->price_master_info != null) ? $product->price_master_info->special_price : (($product->offer_master_info != null)  ? $product->offer_master_info->special_price : $product->price);
                                     @endphp
                                     <div class="col-lg-4 col-md-6 col-12 product_row_div" data-type="{{ $product->cat_id }}" data-price="{{ intval(preg_replace('/[^\d.]/', '', $new_price)) }}" data-slug="{{ $product->slug }}">
                                         <div class="single-product">
                                             <div class="product-img">
-                                                
+
                                                 <a href="{{ route('product-detail', $product->slug) }}">
                                                     <img class="default-img" src="{{ $product->photo[0] }}"
                                                         alt="{{ $product->title }}">
-                                                    @if ($product->discount)
+                                                    {{-- @if ($product->discount)
                                                         <span class="price-dec">{{ $product->discount }} %
                                                             Off</span>
-                                                    @endif
+                                                    @endif --}}
                                                 </a>
 
                                             </div>
@@ -103,18 +103,19 @@
                                                     </a>
                                                 </h3>
                                                 <div class="retail-prise-main">
-                                                    <div class="retail-head">
+                                                    {{-- <div class="retail-head">
                                                         <p>Retail price*</p>
-                                                    </div>
+                                                    </div> --}}
                                                     <span>Rs. {{ $new_price }} </span>
+                                                    <button data-id="{{ $product->slug }}" class="btn-add-to-cart second-add-to-cart-button">+</button>
                                                 </div>
-                                                <div class="mrp-price-main">
+                                                {{-- <div class="mrp-price-main">
                                                     <div class="mrp-head">
                                                         <p>MRP Rs.</p>
                                                     </div>
                                                     <del style="padding-left:4%;">{{ $product->price }}
                                                     </del>
-                                                </div>
+                                                </div> --}}
                                                 <div class="button-head">
                                                     <div class="product-action-2">
                                                         <button type="button" title="Add to cart"
@@ -201,7 +202,7 @@
 
             $("#categories").change(function() {
                 var filterValue = $(this).val();
-                var row = $('.product_row_div'); 
+                var row = $('.product_row_div');
                 row.hide()
                 row.each(function(i, el) {
                     if($(el).attr('data-type') == filterValue) {
@@ -211,7 +212,7 @@
                         $(el).show();
                     }
                 })
-                
+
             });
 
             $(".sortBy").change(function() {
@@ -237,7 +238,7 @@
                     if (filterValue == 'price_low') {
                         newDom.sort(function(a, b) {
                             return a.price - b.price;
-                        });  
+                        });
                     }
 
                     if (filterValue == 'title') {
@@ -245,9 +246,9 @@
                             if(a.slug < b.slug) { return -1; }
                             if(a.slug > b.slug) { return 1; }
                             return 0;
-                        });  
+                        });
                     }
-                    
+
                     $(newDom).each(function(index, node) {
                         $('.product_main_div').append(newDom[index].htmlNode);
                     });
